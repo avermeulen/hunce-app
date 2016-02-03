@@ -1,20 +1,57 @@
 <div class="row">
-    <div class="six columns">
+    <div class="twelve columns">
         <form method="post" action="/proposal">
             <div class="row">
                 <div class="six columns">
-                    <label for="exampleEmailInput">Proposal name</label>
-                    <input class="u-full-width" type="text" placeholder="What is the proposal" name="proposalName">
+                    <label for="select-state">Coders:</label>
+					<select id="select-state" name="coders[]" multiple class="demo-default" placeholder="Select some coders">
+						<option value="">Select some coders...</option>
+						<option value="1">Lindani Pani</option>
+						<option value="2">Nkosi Ndlovu</option>
+						<option value="3">Trevor October</option>
+					</select>
                 </div>
             </div>
 
+            <div class="row">
+                <div class="six columns">
+                    <label for="rating">Rating</label>
+                    <input type="radio" name="rating" value="1">1
+                    <input type="radio" name="rating" value="2">2
+                    <input type="radio" name="rating" value="3">3
+                    <input type="radio" name="rating" value="4">4
+                    <input type="radio" name="rating" value="5">5
+                </div>
+            </div>
             <label for="exampleMessage">Description</label>
             <textarea class="u-full-width" placeholder="proposal description" name="proposalDesc"></textarea>
+
+            <div class="row">
+                <div class="six columns">
+                    <label for="select-tags">Tags:</label>
+					<select id="select-tags" name="tags[]" multiple class="demo-default" placeholder="Select some tags">
+						<option value="">Select some tags...</option>
+						<option value="1">demo</option>
+						<option value="2">hackathon</option>
+						<option value="3">feedback</option>
+					</select>
+                </div>
+            </div>
+
 
             <input class="button-primary" type="submit" value="Submit">
         </form>
     </div>
-
-
-
 </div>
+<script>
+				$select = $('#select-state').selectize({
+					maxItems: 3,
+					create: false,
+				});
+
+                $selectTags = $('#select-tags').selectize({
+					maxItems: 3,
+					create: false,
+				});
+
+				</script>
