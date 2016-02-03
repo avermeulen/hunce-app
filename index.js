@@ -15,7 +15,7 @@ app.engine('hbs', expressHandlebars({defaultLayout: 'main'}));
 app.set('view engine', 'hbs');
 
 app.get('/', function(req, res){
-    res.render('yo')
+    res.render('hunces');
 });
 
 app.post('/proposal', function(req, res){
@@ -23,9 +23,9 @@ app.post('/proposal', function(req, res){
     res.redirect('/');
 });
 
-app.get('/proposals', function(req, res){
+app.get('/hunce', function(req, res){
     //console.log(req.body);
-    res.render('proposals');
+    res.render('hunce');
 });
 
 var port = process.env.port || 3007;
