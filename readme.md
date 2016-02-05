@@ -6,6 +6,6 @@ Start with:
 * Clone from github
 * then do `npm install`
 * Database connection:
-	-Inside mysql command line run the command 'source create_database.sql'
-	-Exit mysql
+	*Inside mysql command line run the command 'source create_database.sql'
+	*Exit mysql
 * Then run command 'node index.js' on the terminal
