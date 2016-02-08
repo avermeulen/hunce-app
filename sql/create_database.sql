@@ -22,7 +22,7 @@ CREATE TABLE coders (
 CREATE TABLE hunches (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	description VARCHAR(150) NOT NULL,
-	rating CHAR,
+	rating INT(1) DEFAULT 0,
 	date_created DATE
 );
 

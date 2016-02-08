@@ -3,18 +3,6 @@ var expressHandlebars = require('express-handlebars');
 var app = express();
 var bodyParser = require('body-parser');
 
-var connection = require('./connection.js');
- 
-connection.connect();
- 
-connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
-  if (err) throw err;
- 
-  console.log('The solution is: ', rows[0].solution);
-});
- 
-connection.end();
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -26,17 +14,23 @@ app.use(express.static('public'));
 app.engine('hbs', expressHandlebars({defaultLayout: 'main'}));
 app.set('view engine', 'hbs');
 
-app.get('/', function(req, res){
-    res.render('hunces');
+var hunches = require('./routes/hunch.js');
+
+app.get('/', hunches.getHunces);
+
+app.get('/hunch/:id', function(req, res){
+    console.log(req.params.id);
+    res.redirect('/');
 });
 
-app.post('/proposal', function(req, res){
+app.post('/hunch/new', hunches.saveHunce);
+
+app.post('/proposal/new', function(req, res){
     console.log(req.body);
     res.redirect('/');
 });
 
-app.get('/hunce', function(req, res){
-    //console.log(req.body);
+app.get('/hunch', function(req, res){
     res.render('hunce');
 });
 
