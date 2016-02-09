@@ -18,20 +18,30 @@ var hunches = require('./routes/hunch.js');
 
 app.get('/', hunches.getHunces);
 
-app.get('/hunch/:id', function(req, res){
-    console.log(req.params.id);
-    res.redirect('/');
+app.get('/hunch', function(req, res){
+    res.render('hunce');
 });
+
+app.get('/hunch/edit/:id', hunches.editHunce);
+
+app.post('/hunch/edit/:id', hunches.updateHunce);
+
+app.get('/hunch/delete/:id', hunches.deleteHunce);
 
 app.post('/hunch/new', hunches.saveHunce);
 
 app.post('/proposal/new', function(req, res){
-    console.log(req.body);
     res.redirect('/');
 });
 
-app.get('/hunch', function(req, res){
-    res.render('hunce');
+app.get("/search/hunches", hunches.searchHunces);
+
+app.get('/*', function(req, res){
+    res.redirect('/');
+});
+
+app.post('/*', function(req, res){
+    res.redirect('/');
 });
 
 var port = process.env.port || 3007;

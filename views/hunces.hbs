@@ -12,12 +12,12 @@
 
 <div class="row">
     <div class="twelve columns">
-        <input type="text" name="name" style="width:50%" value="" placeholder="search...">
+        <input type="text" id="searchHunces" name="searchHunces" style="width:50%" value="" placeholder="search...">
     </div>
 </div>
 <div class="row">
-    <div class="six columns">
-        <table class="u-full-width">
+    <div class="seven columns">
+        <table class="u-full-width" id="hunchesTable">
             <thead>
                 <tr>
                     <th>Description</th>
@@ -33,14 +33,15 @@
                     <td>{{description}}</td>
                     <td>{{coders}}</td>
                     <td> {{tags}}</td>
-                    <td><a href="/hunch/{{id}}">view</a></td>
+                    <td><a href="/hunch/edit/{{id}}">Edit</a></td>
+                    <td><a href="/hunch/delete/{{id}}">Delete</a></td>
                 </tr>
                 {{/hunches}}
 
             </tbody>
         </table>
     </div>
-    <div class="six columns">
+    <div class="five columns">
         <form method="post" action="/proposal/new">
             <div class="row">
                 <div class="six columns">
