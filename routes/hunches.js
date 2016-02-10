@@ -7,12 +7,12 @@ var values_to_insert = function(ids_to_insert, insertId){
 		var values = "";
 		//Make the string so value = (hunch_id, tag_id),(hunch_id, tag_id) and on
 		ids_to_insert.forEach(function(tag_id, index){
+			
+			values += "(" + insertId + "," + tag_id + ")";
+
 			if (index < ids_to_insert.length-1) {
-				values += "(" + insertId + "," + tag_id + "),";
+				values += ","
 			}
-			else{
-				values += "(" + insertId + "," + tag_id + ")";
-			};
 		});
 
 		return values;
@@ -24,6 +24,22 @@ var values_to_insert = function(ids_to_insert, insertId){
 		return values;
 
 	}
+}
+
+//Form a string like this : (1,2,3) for sql IN operator
+var ids_list_string = function(array_of_ids){
+
+	var ids = "";
+	array_of_ids.forEach(function(id_object, index){
+		ids += id_object.id;
+		if (index < array_of_ids.length-1) {
+			ids += ",";
+		};
+	});
+
+	ids = "(" + ids + ")";
+
+	return ids
 }
 
 module.exports = {
@@ -127,13 +143,6 @@ module.exports = {
 							"ON coder_id = coders.id "+
 							"WHERE hunch_id = ?";
 
-		//Get coders NOT of this hunch
-		var other_coders_query = "SELECT coders.id, name " +
-							"FROM coders " +
-							"INNER JOIN coder_hunch " +
-							"ON coder_id = coders.id "+
-							"WHERE hunch_id != ?";
-
 		//Get tags of this hunch
 		var tags_query = "SELECT tags.id, tag_name " +
     					"FROM tags " +
@@ -141,36 +150,51 @@ module.exports = {
     					"ON tag_id = tags.id "+
     					"WHERE hunch_id = ?";
 
-		//Get tags NOT of this hunch
-		var other_tags_query = "SELECT tags.id, tag_name " +
-    					"FROM tags " +
-    					"INNER JOIN tag_hunch " +
-    					"ON tag_id = tags.id "+
-    					"WHERE hunch_id != ?";
-
     	var hunch_id = req.params.id;
 
-		connection.query(hunch_query, hunch_id, function(err, hunch) {
+		connection.query(hunch_query, hunch_id, function(err, hunch_results) {
 			if (err) throw err;
 
-		    connection.query(coders_query, hunch_id, function(err, hunch_coders) {
+		    connection.query(coders_query, hunch_id, function(err, hunch_coders_results) {
 		    	if (err) throw err;
 
-		        connection.query(tags_query, hunch_id, function(err, hunch_tags) {
+		        connection.query(tags_query, hunch_id, function(err, hunch_tags_results) {
 		        	if (err) throw err;
 
-		            connection.query(other_coders_query, hunch_id, function(err, coders) {
+		        	var coder_ids = ids_list_string(hunch_coders_results);
+
+		        	//Get coders NOT of this hunch
+		        	var other_coders_query = "SELECT coders.id, name, hunch_id " +
+		        							"FROM coders " +
+		        							"INNER JOIN coder_hunch " +
+		        							"ON hunch_id != ? " +
+		        							"&& coders.id NOT IN (" +
+		        								"SELECT id from coders where id in " + coder_ids + " " +
+		        								") " +
+											"GROUP BY name";
+
+		            connection.query(other_coders_query, hunch_id, function(err, coders_results) {
 		            	if (err) throw err;
 
-		                connection.query(other_tags_query, hunch_id, function(err, tags) {
+		            	var tag_ids = ids_list_string(hunch_tags_results);
+
+		            	//Get tags NOT of this hunch
+		            	var other_tags_query = "SELECT tags.id, tag_name, hunch_id " +
+		            							"FROM tags " +
+		            							"INNER JOIN tag_hunch " +
+		            							"ON hunch_id != ? && tags.id " +
+		            							"NOT in " + tag_ids +" " +
+		            							"GROUP BY tag_name";
+
+		                connection.query(other_tags_query, hunch_id, function(err, tags_results) {
 		            	if (err) throw err;
 
-		                return res.render('edit_hunch', {
-		                								hunch : hunch,
-		                								hunch_coders : hunch_coders,
-		                								hunch_tags : hunch_tags,
-		                								coders : coders,
-		                								tags : tags
+			                return res.render('edit_hunch', {
+		                								hunch : hunch_results,
+		                								hunch_coders : hunch_coders_results,
+		                								hunch_tags : hunch_tags_results,
+		                								coders : coders_results,
+		                								tags : tags_results
 		                							});
 
 			            });
@@ -200,8 +224,6 @@ module.exports = {
 
 		connection.query(hunch_query, [hunch.description, hunch.rating, hunch_id], function(err, updateResults) {
 			if (err) throw err;
-
-			console.log("updateResults: ", updateResults);
 
 			var tag_hunch_ids = values_to_insert(hunchInfo["tags[]"], hunch_id);
 

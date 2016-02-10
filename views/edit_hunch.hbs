@@ -3,7 +3,7 @@
         <form method="post" action="/hunch/edit/{{#hunch}}{{id}}{{/hunch}}">
             <div class="row">
                 <div class="six columns">
-                    <h1>Create a hunce</h1>
+                    <h1>Edit a hunch</h1>
 
                     <select id="select-state" name="coders[]" multiple class="demo-default" placeholder="Select some coders">
                         <option value="">Select some coders...</option>
@@ -20,7 +20,7 @@
         </div>
         <div class="row">
             <div class="six columns">
-                <textarea class="u-full-width" placeholder="What is this hunce about?" name="hunchDescription">{{#hunch}}{{description}}{{/hunch}}</textarea>
+                <textarea class="u-full-width" placeholder="What is this hunch about?" name="hunchDescription">{{#hunch}}{{description}}{{/hunch}}</textarea>
             </div>
         </div>
         <div class="row">
