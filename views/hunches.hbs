@@ -2,12 +2,10 @@
 
 <div class="row">
     <div class="six columns">
-        <h1>Hunces</h1>
+        <h1>
+            <a href="/" class="twelve">Hunches</a>
+        </h1>
     </div>
-    <div class="six columns">
-        <a class="button" href="/hunch">Hunce!</a>
-    </div>
-
 </div>
 
 <div class="row">
@@ -16,7 +14,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="seven columns">
+    <div class="ten columns">
         <table class="u-full-width" id="hunchesTable">
             <thead>
                 <tr>
@@ -30,13 +28,18 @@
             <tbody>
 
                 {{#if hunches}}
-                <tr>
-                    <td>{{description}}</td>
-                    <td>{{coders}}</td>
-                    <td> {{tags}}</td>
-                    <td><a href="/hunch/edit/{{id}}">Edit</a></td>
-                    <td><a href="/hunch/delete/{{id}}">Delete</a></td>
-                </tr>
+
+                    {{#each hunches}}
+
+                    <tr>
+                        <td>{{description}}</td>
+                        <td>{{coders}}</td>
+                        <td> {{tags}}</td>
+                        <td><a href="/hunch/edit/{{id}}">Edit</a></td>
+                        <td><a href="/hunch/delete/{{id}}">Delete</a></td>
+                    </tr>
+                    {{/each}}
+
                 {{else}}
                 <tr>
                 <td colspan="5">There are no saved hunches in the datadase.<td></tr>
@@ -45,48 +48,7 @@
             </tbody>
         </table>
     </div>
-    <div class="five columns">
-        <form method="post" action="/proposal/new">
-            <div class="row">
-                <div class="six columns">
-                    <label for="exampleEmailInput">Proposal name</label>
-                    <input class="u-full-width" type="text" placeholder="What is the proposal" name="proposalName">
-                </div>
-            </div>
-
-            <input type="radio" name="rating" value="1">1
-            <input type="radio" name="rating" value="2">2
-            <input type="radio" name="rating" value="3">3
-            <input type="radio" name="rating" value="4">4
-            <input type="radio" name="rating" value="5">5
-
-            <label for="exampleMessage">Description</label>
-            <textarea class="u-full-width" placeholder="proposal description" name="proposalDesc"></textarea>
-
-            <input class="button-primary" type="submit" value="Submit">
-        </form>
-    </div>
-</div>
-
-<div class="row">
-    <div class="two columns work">
-        doing some work
-    </div>
-    <div class="two columns work">
-        doing some work
-    </div>
-    <div class="two columns work">
-        doing some work
-    </div>
-</div>
-<div class="row">
-    <div class="two columns work">
-        doing some work
-    </div>
-    <div class="two columns work">
-        doing some work
-    </div>
-    <div class="two columns work">
-        doing some work
+    <div class="six columns">
+        <a class="button" href="/hunch">New Hunch!</a>
     </div>
 </div>

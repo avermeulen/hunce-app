@@ -165,7 +165,7 @@ module.exports = {
 		                connection.query(other_tags_query, hunch_id, function(err, tags) {
 		            	if (err) throw err;
 
-		                return res.render('edit_hunce', {
+		                return res.render('edit_hunch', {
 		                								hunch : hunch,
 		                								hunch_coders : hunch_coders,
 		                								hunch_tags : hunch_tags,
