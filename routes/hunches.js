@@ -27,38 +27,63 @@ var values_to_insert = function(ids_to_insert, insertId){
 }
 
 module.exports = {
-	saveHunce : function(req, res){
+	saveHunch : function(req, res){
 
-		var hunceInfo = JSON.parse(JSON.stringify(req.body));
+		var hunchInfo = JSON.parse(JSON.stringify(req.body));
 
-		var today = new Date();
-		 
-		var hunch = {
-			description : hunceInfo.hunceDescription,
-			rating : hunceInfo.rating,
-			date_created : new Date()
-		};
+		if (hunchInfo["hunchDescription"] == "") {
 
-		connection.query('INSERT INTO hunches (description, rating , date_created) VALUES(?,?,?)', [hunch.description, hunch.rating, hunch.date_created], function(err, insertResults) {
-			if (err) throw err;
+			return res.render('hunch', {
+										msg : "Hunch description cannot be empty!"
+										});
 
-			var tag_hunch_ids = values_to_insert(hunceInfo["tags[]"], insertResults.insertId);
+		}
+		else if(hunchInfo["coders[]"] == undefined){
 
-			connection.query('INSERT INTO tag_hunch (hunch_id, tag_id) VALUES' + tag_hunch_ids, function(err, tagHunchResults) {
+			return res.render("hunch", {
+										msg : "Tag at least one coder in your hunch!",
+										hunchDescription : hunchInfo["hunchDescription"]
+										})
+
+		}
+		else if(hunchInfo["tags[]"] == undefined){
+
+			return res.render("hunch", {
+										msg : "Put some tags in your hunch!",
+										hunchDescription : hunchInfo["hunchDescription"]
+										});
+
+		} else{
+
+			var today = new Date();
+			 
+			var hunch = {
+				description : hunchInfo.hunchDescription,
+				rating : hunchInfo["rating"] == undefined ? 0 : hunchInfo["rating"],
+				date_created : new Date()
+			};
+
+			connection.query('INSERT INTO hunches (description, rating , date_created) VALUES(?,?,?)', [hunch.description, hunch.rating, hunch.date_created], function(err, insertResults) {
 				if (err) throw err;
 
-				var coder_hunch_ids = values_to_insert(hunceInfo["coders[]"], insertResults.insertId);
+				var tag_hunch_ids = values_to_insert(hunchInfo["tags[]"], insertResults.insertId);
 
-				connection.query('INSERT INTO coder_hunch (hunch_id, coder_id) VALUES' + coder_hunch_ids, function(err, coderHunchResults) {
+				connection.query('INSERT INTO tag_hunch (hunch_id, tag_id) VALUES' + tag_hunch_ids, function(err, tagHunchResults) {
 					if (err) throw err;
 
-					return res.redirect('/');
-				});
+					var coder_hunch_ids = values_to_insert(hunchInfo["coders[]"], insertResults.insertId);
 
+					connection.query('INSERT INTO coder_hunch (hunch_id, coder_id) VALUES' + coder_hunch_ids, function(err, coderHunchResults) {
+						if (err) throw err;
+
+						return res.redirect('/');
+					});
+
+				});
 			});
-		});
+		};
 	},
-	getHunces : function(req, res){
+	getHunches : function(req, res){
     
     	var sql_query = "SELECT hunches.id, description, tags, coders, rating " +
     					"FROM hunches " +
@@ -82,13 +107,13 @@ module.exports = {
 		connection.query(sql_query, function(err, hunchResults) {
 			if (err) throw err;
 
-		    return res.render('hunces', {
+		    return res.render('hunches', {
 		    								hunches : hunchResults
 		    							});
 
 		});
 	},
-	editHunce : function(req, res){
+	editHunch : function(req, res){
 
 		//Get hunch information in the hunches table
     	var hunch_query = "SELECT id, description, rating " +
@@ -154,16 +179,16 @@ module.exports = {
 		    });
 		});
 	},
-	updateHunce : function(req, res){
+	updateHunch : function(req, res){
 
-		var hunceInfo = JSON.parse(JSON.stringify(req.body));
+		var hunchInfo = JSON.parse(JSON.stringify(req.body));
 		var hunch_id = req.params.id;
 
 		//var today = new Date();
 		 
 		var hunch = {
-			description : hunceInfo.hunceDescription,
-			rating : hunceInfo.rating
+			description : hunchInfo.hunchDescription,
+			rating : hunchInfo["rating"] == undefined ? 0 : hunchInfo["rating"]
 		};
 
 		var hunch_query = "UPDATE hunches SET description = ?, rating = ? " +
@@ -178,7 +203,7 @@ module.exports = {
 
 			console.log("updateResults: ", updateResults);
 
-			var tag_hunch_ids = values_to_insert(hunceInfo["tags[]"], hunch_id);
+			var tag_hunch_ids = values_to_insert(hunchInfo["tags[]"], hunch_id);
 
 			connection.query(remove_hunch_tags_query, hunch_id, function(err, tagHunchResults) {
 				if (err) throw err;
@@ -188,7 +213,7 @@ module.exports = {
 				connection.query(insert_tag_hunch_query, function(err, tagHunchResults) {
 					if (err) throw err;
 
-					var coder_hunch_ids = values_to_insert(hunceInfo["coders[]"], hunch_id);
+					var coder_hunch_ids = values_to_insert(hunchInfo["coders[]"], hunch_id);
 
 					connection.query(remove_hunch_coders_query, hunch_id, function(err, coderHunchResults) {
 						if (err) throw err;
@@ -207,7 +232,7 @@ module.exports = {
 			});
 		});
 	},
-	deleteHunce : function(req, res){
+	deleteHunch : function(req, res){
 
 		//Get hunch id as request parameter
 		var hunch_id = req.params.id;
@@ -241,36 +266,11 @@ module.exports = {
 		    });
 		});
 	},
-	searchHunces : function(req, res){
+	searchHunches : function(req, res){
 
 		var searchString = req.query.searchString;
 
-    	var sql_query = "",
-    		searchStringSize;
-
-    	if (searchString == undefined || searchString.length == 0) {
-    		
-    		sql_query = "SELECT hunches.id, description, tags, coders, rating " +
-    					"FROM hunches " +
-    					"LEFT JOIN ( " + 
-    					"	SELECT DISTINCT hunch_id, GROUP_CONCAT(tag_name) AS tags " +
-    					"	FROM tags " +
-    					"	INNER JOIN tag_hunch " +
-    					"	ON tag_id = tags.id " +
-    					"	GROUP BY hunch_id " +
-    					") AS hunch_tags " + 
-						"ON hunch_tags.hunch_id = hunches.id " +
-						"LEFT JOIN ( " +
-						"	SELECT DISTINCT hunch_id, GROUP_CONCAT(name) AS coders " +
-						"	FROM coders " +
-						"	INNER JOIN coder_hunch " +
-						"	ON coder_id = coders.id " +
-						"	GROUP BY coder_hunch.hunch_id " +
-						") AS hunch_coders " +
-						"ON hunch_coders.hunch_id = hunches.id ";
-    	} else{
-
-    		sql_query = "SELECT hunches.id, description, tags, coders, rating " +
+    	var sql_query = "SELECT hunches.id, description, tags, coders, rating " +
     					"FROM hunches " +
     					"LEFT JOIN ( " + 
     					"	SELECT DISTINCT hunch_id, GROUP_CONCAT(tag_name) AS tags " +
@@ -292,7 +292,6 @@ module.exports = {
 						"OR tags LIKE \'%" + searchString + "%\' " +
 						"OR coders LIKE \'%" + searchString + "%\' " +
 						"OR rating LIKE \'%" + searchString + "%\' ";
-    	};
 
 		connection.query(sql_query, function(err, searchResults) {
 			if (err) throw err;

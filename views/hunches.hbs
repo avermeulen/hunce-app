@@ -24,11 +24,12 @@
                     <th>Coders</th>
                     <th>Tags</th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
 
-                {{#hunches}}
+                {{#if hunches}}
                 <tr>
                     <td>{{description}}</td>
                     <td>{{coders}}</td>
@@ -36,7 +37,10 @@
                     <td><a href="/hunch/edit/{{id}}">Edit</a></td>
                     <td><a href="/hunch/delete/{{id}}">Delete</a></td>
                 </tr>
-                {{/hunches}}
+                {{else}}
+                <tr>
+                <td colspan="5">There are no saved hunches in the datadase.<td></tr>
+                {{/if}}
 
             </tbody>
         </table>

@@ -14,27 +14,27 @@ app.use(express.static('public'));
 app.engine('hbs', expressHandlebars({defaultLayout: 'main'}));
 app.set('view engine', 'hbs');
 
-var hunches = require('./routes/hunch.js');
+var hunches = require('./routes/hunches.js');
 
-app.get('/', hunches.getHunces);
+app.get('/', hunches.getHunches);
 
 app.get('/hunch', function(req, res){
-    res.render('hunce');
+    res.render('hunch');
 });
 
-app.get('/hunch/edit/:id', hunches.editHunce);
+app.get('/hunch/edit/:id', hunches.editHunch);
 
-app.post('/hunch/edit/:id', hunches.updateHunce);
+app.post('/hunch/edit/:id', hunches.updateHunch);
 
-app.get('/hunch/delete/:id', hunches.deleteHunce);
+app.get('/hunch/delete/:id', hunches.deleteHunch);
 
-app.post('/hunch/new', hunches.saveHunce);
+app.post('/hunch/new', hunches.saveHunch);
 
 app.post('/proposal/new', function(req, res){
     res.redirect('/');
 });
 
-app.get("/search/hunches", hunches.searchHunces);
+app.get("/search/hunches", hunches.searchHunches);
 
 app.get('/*', function(req, res){
     res.redirect('/');
@@ -46,5 +46,6 @@ app.post('/*', function(req, res){
 
 var port = process.env.port || 3007;
 app.listen(port, function(){
-    console.log('running at port :' , port);
+    console.log("running at port :" , port);
+    console.log(new Date());
 });

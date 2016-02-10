@@ -6,8 +6,6 @@ $(document).ready(function(){
 
 			$("table#hunchesTable tbody").empty();
 
-			console.log("searchResults: \n", typeof(searchResults), searchResults)
-
 			searchResults.forEach(function(hunch){
 
 				$("table#hunchesTable tbody").append("<tr>" +
