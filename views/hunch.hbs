@@ -1,9 +1,15 @@
 <div class="row">
     <div class="twelve columns">
-        <form method="post" action="/proposal">
+        <form method="post" action="/hunch/new">
             <div class="row">
                 <div class="six columns">
-                    <h1>Create a hunce</h1>
+                    <h1>Create a hunch</h1>
+
+                    {{#if msg}}
+                    <h2 style="color:red;">
+                        {{msg}}
+                    </h2>
+                    {{/if}}
 
 					<select id="select-state" name="coders[]" multiple class="demo-default" placeholder="Select some coders">
 						<option value="">Select some coders...</option>
@@ -16,7 +22,7 @@
 
             <div class="row">
                 <div class="six columns">
-                    <textarea class="u-full-width" placeholder="What is this hunce about?" name="hunceDescription"></textarea>
+                    <textarea class="u-full-width" placeholder="What is this hunch about?" name="hunchDescription">{{#if hunchDescription}}{{hunchDescription}}{{/if}}</textarea>
                 </div>
             </div>
             <div class="row">

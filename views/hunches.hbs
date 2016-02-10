@@ -5,40 +5,48 @@
         <h1>Hunces</h1>
     </div>
     <div class="six columns">
-        <a class="button" href="/hunce">Hunce!</a>
+        <a class="button" href="/hunch">Hunce!</a>
     </div>
 
 </div>
 
 <div class="row">
     <div class="twelve columns">
-        <input type="text" name="name" style="width:100%" value="" placeholder="search...">
+        <input type="text" id="searchHunces" name="searchHunces" style="width:50%" value="" placeholder="search...">
     </div>
 </div>
 <div class="row">
-    <div class="six columns">
-        <table class="u-full-width">
+    <div class="seven columns">
+        <table class="u-full-width" id="hunchesTable">
             <thead>
                 <tr>
                     <th>Description</th>
                     <th>Coders</th>
                     <th>Tags</th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
+
+                {{#if hunches}}
                 <tr>
-                    <td>Dave Gamache</td>
-                    <td></td>
-                    <td></td>
-                    <td><a href="#">view</a></td>
+                    <td>{{description}}</td>
+                    <td>{{coders}}</td>
+                    <td> {{tags}}</td>
+                    <td><a href="/hunch/edit/{{id}}">Edit</a></td>
+                    <td><a href="/hunch/delete/{{id}}">Delete</a></td>
                 </tr>
+                {{else}}
+                <tr>
+                <td colspan="5">There are no saved hunches in the datadase.<td></tr>
+                {{/if}}
 
             </tbody>
         </table>
     </div>
-    <div class="six columns">
-        <form method="post" action="/proposal">
+    <div class="five columns">
+        <form method="post" action="/proposal/new">
             <div class="row">
                 <div class="six columns">
                     <label for="exampleEmailInput">Proposal name</label>
