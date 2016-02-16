@@ -18,17 +18,15 @@ var hunches = require('./routes/hunches.js');
 
 app.get('/', hunches.getHunches);
 
-app.get('/hunch', function(req, res){
-    res.render('hunch');
-});
+app.get('/hunch/new', hunches.newHunch);
+
+app.post('/hunch/new', hunches.saveHunch);
 
 app.get('/hunch/edit/:id', hunches.editHunch);
 
 app.post('/hunch/edit/:id', hunches.updateHunch);
 
 app.get('/hunch/delete/:id', hunches.deleteHunch);
-
-app.post('/hunch/new', hunches.saveHunch);
 
 app.post('/proposal/new', function(req, res){
     res.redirect('/');

@@ -43,6 +43,23 @@ var ids_list_string = function(array_of_ids){
 }
 
 module.exports = {
+	newHunch : function(req, res){
+		connection.query("SELECT id, tag_name FROM tags", function(err, tags_results) {
+			if (err) throw err;
+
+
+			connection.query("SELECT id, name FROM coders", function(err, coders_results) {
+				if (err) throw err;
+
+				console.log(coders_results, tags_results)
+
+				return res.render('hunch', {
+					tags : tags_results,
+					coders : coders_results
+				});
+			});
+		});
+	},
 	saveHunch : function(req, res){
 
 		var hunchInfo = JSON.parse(JSON.stringify(req.body));

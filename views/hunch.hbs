@@ -13,9 +13,14 @@
 
 					<select id="select-state" name="coders[]" multiple class="demo-default" placeholder="Select some coders">
 						<option value="">Select some coders...</option>
-						<option value="1">Lindani Pani</option>
-						<option value="2">Nkosi Ndlovu</option>
-						<option value="3">Trevor October</option>
+						{{#if coders}}
+                            {{#each coders}}
+                            <option value="{{id}}">{{name}}</option>
+                            {{/each}}
+                        {{else}}
+                            <option>No coders</option>
+                        {{/if}}
+
 					</select>
                 </div>
             </div>
@@ -29,9 +34,14 @@
                 <div class="six columns">
 					<select id="select-tags" name="tags[]" multiple class="demo-default" placeholder="Select some tags">
 						<option value="">Select some tags...</option>
-						<option value="1">demo</option>
-						<option value="2">hackathon</option>
-						<option value="3">feedback</option>
+                        {{#if tags}}
+                            {{#each tags}}
+                            <option value="{{id}}">{{tag_name}}</option>
+                            {{/each}}
+                        {{else}}
+                            <option>No tags</option>
+                        {{/if}}
+						
 					</select>
 
                 </div>
