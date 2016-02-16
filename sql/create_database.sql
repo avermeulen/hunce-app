@@ -1,0 +1,50 @@
+/*CREATE USER TO ACCESS THE DATABASE WITH*/
+DROP USER 'hunchAdmin';
+CREATE USER 'hunchAdmin'
+IDENTIFIED BY 'Coder_Hunch123';
+
+/*DROP AND CREATE DATABASE FOR APPLICATION*/
+DROP DATABASE IF EXISTS hunchDB;
+CREATE DATABASE hunchDB;
+
+/*GRANT PRIVILEDGES TO USER*/
+GRANT ALL ON hunchDB.* TO 'hunchAdmin';
+
+USE hunchDB;
+
+/*CREATE DATABASE TABLE AND RELATIONSHIPS*/
+
+CREATE TABLE coders (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(35) NOT NULL
+);
+
+CREATE TABLE hunches (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	description VARCHAR(150) NOT NULL,
+	rating INT(1) DEFAULT 0,
+	date_created DATE
+);
+
+/*coders and hunches relationship table*/
+CREATE TABLE coder_hunch (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	coder_id INT,
+	FOREIGN KEY (coder_id) REFERENCES coders(id),
+	hunch_id INT,
+	FOREIGN KEY (hunch_id) REFERENCES hunches(id)
+);
+
+CREATE TABLE tags(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	tag_name VARCHAR(35) NOT NULL
+);
+
+/*tags and hunches relationship table*/
+CREATE TABLE tag_hunch (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	tag_id INT,
+	FOREIGN KEY (tag_id) REFERENCES tags(id),
+	hunch_id INT,
+	FOREIGN KEY (hunch_id) REFERENCES hunches(id)
+);
