@@ -1,0 +1,20 @@
+<div class="container">
+
+    <div class="g-signin2 two columns" data-onsuccess="onSignIn">
+		
+	</div>
+
+	<script type="text/javascript">
+		function onSignIn(googleUser) {
+		  var profile = googleUser.getBasicProfile();
+		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		  console.log('Name: ' + profile.getName());
+		  console.log('Image URL: ' + profile.getImageUrl());
+		  console.log('Email: ' + profile.getEmail());
+		}
+	</script>
+
+    <div class="six columns">
+        <h1>Sign In to Hunches</h1>
+    </div>
+</div>

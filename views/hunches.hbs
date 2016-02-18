@@ -1,19 +1,8 @@
 <div class="row">
-    <div class="g-signin2 three columns" data-onsuccess="onSignIn"></div>
 
     <div class="six columns">
         <h1>Hunches</h1>
     </div>
-
-    <a class="three columns" href="#" onclick="signOut();">Sign out</a>
-    <script>
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log('User signed out.');
-        });
-      }
-    </script>
 
 </div>
 <div class="row">
