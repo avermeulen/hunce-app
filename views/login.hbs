@@ -1,18 +1,17 @@
-<div class="container">
+<div class="rows container">
+
+	<h1 style="color:red" class="twelve columns">
+		Do not sign in with your google acount on this page. It is not secure.
+		This is still under testing!!!
+	</h1>
+
+	<table class="twelve columns">
+		
+	</table>
 
     <div class="g-signin2 two columns" data-onsuccess="onSignIn">
 		
 	</div>
-
-	<script type="text/javascript">
-		function onSignIn(googleUser) {
-		  var profile = googleUser.getBasicProfile();
-		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-		  console.log('Name: ' + profile.getName());
-		  console.log('Image URL: ' + profile.getImageUrl());
-		  console.log('Email: ' + profile.getEmail());
-		}
-	</script>
 
     <div class="six columns">
         <h1>Sign In to Hunches</h1>
