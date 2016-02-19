@@ -15,7 +15,7 @@ function onSignIn(googleUser) {
 
 	var user = {
 		fullname : profile.getName(),
-		email : profile.getEmail();
+		email : profile.getEmail()
 	};
 
 	console.log("user : ", user);
