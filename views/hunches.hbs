@@ -1,11 +1,10 @@
-
-
 <div class="row">
+
     <div class="six columns">
         <h1>Hunches</h1>
     </div>
-</div>
 
+</div>
 <div class="row">
     <div class="twelve columns">
         <input type="text" id="searchHunces" name="searchHunces" style="width:50%" value="" placeholder="search...">
@@ -24,25 +23,21 @@
                 </tr>
             </thead>
             <tbody>
-
                 {{#if hunches}}
-
                     {{#each hunches}}
-
-                    <tr>
-                        <td>{{description}}</td>
-                        <td>{{coders}}</td>
-                        <td> {{tags}}</td>
-                        <td><a href="/hunch/edit/{{id}}">Edit</a></td>
-                        <td><a href="/hunch/delete/{{id}}">Delete</a></td>
-                    </tr>
+                        <tr>
+                            <td>{{description}}</td>
+                            <td>{{coders}}</td>
+                            <td> {{tags}}</td>
+                            <td><a href="/hunch/edit/{{id}}">Edit</a></td>
+                            <td><a href="/hunch/delete/{{id}}">Delete</a></td>
+                        </tr>
                     {{/each}}
-
                 {{else}}
-                <tr>
-                <td colspan="5">There are no saved hunches in the datadase.<td></tr>
+                    <tr>
+                        <td colspan="5">There are no saved hunches in the datadase.<td>
+                    </tr>
                 {{/if}}
-
             </tbody>
         </table>
     </div>

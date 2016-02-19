@@ -16,25 +16,33 @@ app.set('view engine', 'hbs');
 
 var hunches = require('./routes/hunches.js');
 
-app.get('/', hunches.getHunches);
+var isLogged_in = function(req, res, next){
+	return next();
+}
 
-app.get('/hunch/new', hunches.newHunch);
+app.get('/login', isLogged_in, function(req, res){
+	res.render('login');
+});
 
-app.post('/hunch/new', hunches.saveHunch);
+app.get('/', isLogged_in, hunches.getHunches);
 
-app.get('/hunch/edit/:id', hunches.editHunch);
+app.get('/hunch/new', isLogged_in, hunches.newHunch);
 
-app.post('/hunch/edit/:id', hunches.updateHunch);
+app.post('/hunch/new', isLogged_in, hunches.saveHunch);
 
-app.get('/hunch/delete/:id', hunches.deleteHunch);
+app.get('/hunch/edit/:id', isLogged_in, hunches.editHunch);
 
-app.post('/proposal/new', function(req, res){
+app.post('/hunch/edit/:id', isLogged_in, hunches.updateHunch);
+
+app.get('/hunch/delete/:id', isLogged_in, hunches.deleteHunch);
+
+app.post('/proposal/new', isLogged_in, function(req, res){
     res.redirect('/');
 });
 
-app.get("/search/hunches", hunches.searchHunches);
+app.get("/search/hunches", isLogged_in, hunches.searchHunches);
 
-app.get('/*', function(req, res){
+app.get('/*', isLogged_in, function(req, res){
     res.redirect('/');
 });
 
