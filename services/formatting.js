@@ -28,16 +28,22 @@ module.exports = {
 	//Form a string like this : (1,2,3) for sql IN operator
 	ids_list_string : function(array_of_ids){
 
-		var ids = "";
-		array_of_ids.forEach(function(id_object, index){
-			ids += id_object.id;
-			if (index < array_of_ids.length-1) {
-				ids += ",";
-			};
-		});
+		if (typeof(array_of_ids) == "object") {
+			var ids = "";
+			array_of_ids.forEach(function(id_object, index){
+				ids += id_object.id;
+				if (index < array_of_ids.length-1) {
+					ids += ",";
+				};
+			});
 
-		ids = "(" + ids + ")";
+			ids = "(" + ids + ")";
 
-		return ids
+			return ids
+		} else {
+
+			return "(" + array_of_ids.id + ")";
+
+		}
 	}
 }

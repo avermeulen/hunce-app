@@ -29,8 +29,8 @@
                             <td>{{description}}</td>
                             <td>{{coders}}</td>
                             <td> {{tags}}</td>
-                            <td><a href="/hunch/edit/{{id}}">Edit</a></td>
-                            <td><a href="/hunch/delete/{{id}}">Delete</a></td>
+                            <td><a id="editHunch" href="/hunch/edit/{{id}}">Edit</a></td>
+                            <td><a id="deleteHunch" href="/hunch/delete/{{id}}">Delete</a></td>
                         </tr>
                     {{/each}}
                 {{else}}
@@ -42,6 +42,6 @@
         </table>
     </div>
     <div class="six columns">
-        <a class="button" href="/hunch/new">New Hunch!</a>
+        <a class="button" href="/hunch/new">New Note!</a>
     </div>
 </div>

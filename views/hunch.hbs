@@ -11,7 +11,7 @@
                     </h2>
                     {{/if}}
 
-					<select id="select-state" name="coders[]" multiple class="demo-default" placeholder="Select some coders">
+					<select id="select-coders" name="coders[]" multiple class="demo-default" placeholder="Select some coders">
 						<option value="">Select some coders...</option>
 						{{#if coders}}
                             {{#each coders}}
@@ -27,7 +27,7 @@
 
             <div class="row">
                 <div class="six columns">
-                    <textarea class="u-full-width" placeholder="What is this hunch about?" name="hunchDescription">{{#if hunchDescription}}{{hunchDescription}}{{/if}}</textarea>
+                    <textarea class="u-full-width" placeholder="What is this hunch about?" name="hunchDescription" required>{{#if hunchDescription}}{{hunchDescription}}{{/if}}</textarea>
                 </div>
             </div>
             <div class="row">
@@ -45,18 +45,33 @@
 					</select>
 
                 </div>
-                <div class="two columns">
-                    <input type="button" value="Add tag">
+                <div class="four columns">
+                    <p id="tag_msg" style="color:red" hidden>{{#if tag_msg}} {{tag_msg}} {{else}} Enter name of tag {{/if}}</p>
+                    <input class="five columns" type="button" name="add-tag" value="Add new tag">
+                    <input class="six columns" name="new-tag" type="text"/>
                 </div>
             </div>
 
             <div class="row">
                 <div class="six columns">
-                    <input type="radio" name="rating" value="1">1
-                    <input type="radio" name="rating" value="2">2
-                    <input type="radio" name="rating" value="3">3
-                    <input type="radio" name="rating" value="4">4
-                    <input type="radio" name="rating" value="5">5
+
+                    <div class="four columns">
+                        <input type="radio" name="rating" value="3">
+                        <img src="/emoticons/1.gif" border="0" alt="Happy" title = "Happy emoticon" />
+                        <label>Positive</label>
+                    </div>
+
+                    <div class="four columns">
+                        <input type="radio" name="rating" value="2">
+                        <img src="/emoticons/2.gif" border="0" alt="Observational" title = "Observational emoticon" />
+                        <label>Informing</label>
+                    </div>
+
+                    <div class="four columns">
+                        <input type="radio" name="rating" value="1">
+                        <img src="/emoticons/3.gif" border="0" alt="Disappointed" title = "Disappointed emoticon" />
+                        <label>Negative</label>
+                    </div>
                 </div>
             </div>
 
@@ -67,14 +82,26 @@
     </div>
 </div>
 <script>
-				$select = $('#select-state').selectize({
-					maxItems: 3,
-					create: false,
-				});
+    $selectCoders = $('#select-coders').selectize({
+    	plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: false,
+        selectOnTab : true
+    });
 
-                $selectTags = $('#select-tags').selectize({
-					maxItems: 3,
-					create: false,
-				});
+    $selectTags = $('#select-tags').selectize({
+        plugins: ['restore_on_backspace', 'remove_button'],
+        delimiter: ',',
+        persist: false,
+        selectOnTab : true,
+        create: function(input) {
 
-				</script>
+            return {
+                value: input,
+                text: input
+            }
+        }
+    });
+
+</script>
