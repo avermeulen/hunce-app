@@ -45,11 +45,11 @@
 					</select>
 
                 </div>
-                <div class="four columns">
+                {{!-- <div class="four columns">
                     <p id="tag_msg" style="color:red" hidden>{{#if tag_msg}} {{tag_msg}} {{else}} Enter name of tag {{/if}}</p>
                     <input class="five columns" type="button" name="add-tag" value="Add new tag">
                     <input class="six columns" name="new-tag" type="text"/>
-                </div>
+                </div> --}}
             </div>
 
             <div class="row">
@@ -81,27 +81,3 @@
         </form>
     </div>
 </div>
-<script>
-    $selectCoders = $('#select-coders').selectize({
-    	plugins: ['remove_button'],
-        delimiter: ',',
-        persist: false,
-        create: false,
-        selectOnTab : true
-    });
-
-    $selectTags = $('#select-tags').selectize({
-        plugins: ['restore_on_backspace', 'remove_button'],
-        delimiter: ',',
-        persist: false,
-        selectOnTab : true,
-        create: function(input) {
-
-            return {
-                value: input,
-                text: input
-            }
-        }
-    });
-
-</script>

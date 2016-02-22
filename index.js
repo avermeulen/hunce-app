@@ -15,6 +15,7 @@ app.engine('hbs', expressHandlebars({defaultLayout: 'main'}));
 app.set('view engine', 'hbs');
 
 var hunches = require('./routes/hunches.js');
+var tags = require("./routes/tags.js")
 
 var isLogged_in = function(req, res, next){
 	return next();
@@ -41,6 +42,9 @@ app.post('/proposal/new', isLogged_in, function(req, res){
 });
 
 app.get("/search/hunches", isLogged_in, hunches.searchHunches);
+
+app.post("/tags/add", isLogged_in, tags.saveTag);
+
 
 app.get('/*', isLogged_in, function(req, res){
     res.redirect('/');

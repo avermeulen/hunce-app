@@ -1,5 +1,6 @@
-var connection = require('../connection.js');
-var hunchService = require('../services/hunchService.js');
+var hunchService = require('../services/hunchService.js'),
+	tagService = require('../services/tagService.js');
+
 
 module.exports = {
 	newHunch : function(req, res){
@@ -39,11 +40,11 @@ module.exports = {
 		}
 		else if(hunchInfo["tags[]"] == undefined){
 
-			hunchService.newHunch(function(response){
+			hunchService.newHunch(function(results){
 				
 				return res.render('hunch', {
-									tags : response.tags,
-									coders : response.coders,
+									tags : results.tags,
+									coders : results.coders,
 									msg : "Put some tags in your hunch!",
 									hunchDescription : hunchInfo["hunchDescription"]
 								});

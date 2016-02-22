@@ -3,17 +3,17 @@ var connection = require('../connection.js');
 module.exports = {
 	saveTag : function(tag, callback){
 
-		var select_tag_query = "SELECT tag_name FROM tags WHERE id = ?";
-		var insert_tag_query = "INSER INTO tags (tag_name) VALUES(?)";
+		var select_tag_query = "SELECT tag_name FROM tags WHERE tag_name = ?";
 
 		connection.query(select_tag_query, tag.tag_name, function(err, tag_results){
 			if (err) throw err;
 
-			if (tag_results.tag_name) {
+			console.log(tag_results);
 
-				callback({tag_results : tag_results});
+			if(tag_results.length == []) {
 
-			} else {
+				var insert_tag_query = "INSERT INTO tags (tag_name) VALUES(?)";
+
 				connection.query(insert_tag_query, tag.tag_name, function(err, tag_results){
 					if (err) throw err;
 
@@ -21,6 +21,11 @@ module.exports = {
 
 				});
 			}
+			else if (tag_results.tag_name || tag_results[0].tag_name) {
+
+				callback({tag_results : tag_results});
+
+			} 
 
 		});
 

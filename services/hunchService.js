@@ -109,7 +109,7 @@ module.exports = {
 		        connection.query(tags_query, hunch_id, function(err, hunch_tags_results) {
 		        	if (err) throw err;
 
-		        	var coder_ids = formatting.ids_list_string(hunch_coders_results);
+		        	var coder_ids = formatting.sql1_list_string(hunch_coders_results);
 
 		        	//Get coders NOT of this hunch
 		        	var other_coders_query = "SELECT coders.id, name, hunch_id " +
@@ -124,7 +124,7 @@ module.exports = {
 		            connection.query(other_coders_query, hunch_id, function(err, coders_results) {
 		            	if (err) throw err;
 
-		            	var tag_ids = formatting.ids_list_string(hunch_tags_results);
+		            	var tag_ids = formatting.sql1_list_string(hunch_tags_results);
 
 		            	//Get tags NOT of this hunch
 		            	var other_tags_query = "SELECT tags.id, tag_name, hunch_id " +
