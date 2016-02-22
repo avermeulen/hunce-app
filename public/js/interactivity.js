@@ -25,4 +25,17 @@ $(document).ready(function(){
             });
         }   
     });
+
+    //Calculate characters remaining in description
+
+    $("div[name=remaining-characters]").text(
+        "Remaing: (" + (200-$($("textarea[name=hunchDescription]")).val().length) + ")"
+        );
+
+    $("textarea[name=hunchDescription]").keyup(function(){
+
+        $("div[name=remaining-characters]").text("Remaing: (" + (200-$(this).val().length) + ")");
+    });
+    //End of description length remaing
+
 });
