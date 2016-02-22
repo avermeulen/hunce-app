@@ -20,7 +20,10 @@
         </div>
         <div class="row">
             <div class="six columns">
-                <textarea class="u-full-width" placeholder="What is this hunch about?" name="hunchDescription" required>{{#hunch}}{{description}}{{/hunch}}</textarea>
+                <div name="remaining-characters" class="u-full-width">
+                    Remaing: (200)
+                </div>
+                <textarea maxlength="200" class="u-full-width" placeholder="What is this hunch about?" name="hunchDescription" required>{{#hunch}}{{description}}{{/hunch}}</textarea>
             </div>
         </div>
         <div class="row">
@@ -61,7 +64,8 @@
             </div>
         </div>
         <div class="row">
-            <input class="button-primary" type="submit" value="Submit">
+            <input class="five columns button-primary" type="submit" value="Submit">
+            <a href="/" class="one columns" title="cancel">cancel</a>
         </div>
     </form>
 </div>
