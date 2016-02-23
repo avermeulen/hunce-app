@@ -53,7 +53,7 @@ module.exports = {
 
 	getHunches : function(callback){
 
-    	var sql_query = "SELECT hunches.id, description, tags, coders, rating " +
+    	var sql_query = "SELECT hunches.id, description, tags, coders, rating, DATE_FORMAT(date_created, '%d/%m/%Y') AS date_created " +
     					"FROM hunches " +
     					"LEFT JOIN ( " + 
     					"	SELECT DISTINCT hunch_id, GROUP_CONCAT(tag_name) AS tags " +
@@ -240,7 +240,7 @@ module.exports = {
 
 	searchHunches : function(searchString, callback){
 		
-    	var sql_query = "SELECT hunches.id, description, tags, coders, rating " +
+    	var sql_query = "SELECT hunches.id, description, tags, coders, rating, DATE_FORMAT(date_created, '%d/%m/%Y') AS date_created " +
     					"FROM hunches " +
     					"LEFT JOIN ( " + 
     					"	SELECT DISTINCT hunch_id, GROUP_CONCAT(tag_name) AS tags " +
@@ -260,8 +260,7 @@ module.exports = {
 						"ON hunch_coders.hunch_id = hunches.id " +
 						"WHERE description LIKE \'%" + searchString +"%\' "+
 						"OR tags LIKE \'%" + searchString + "%\' " +
-						"OR coders LIKE \'%" + searchString + "%\' " +
-						"OR rating LIKE \'%" + searchString + "%\' ";
+						"OR coders LIKE \'%" + searchString + "%\' ";
 
 		connection.query(sql_query, function(err, searchResults) {
 			if (err) throw err;

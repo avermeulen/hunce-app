@@ -48,6 +48,33 @@ module.exports = {
 			callback({tag_results : tag_results});
 		});
 	},
+	getTagHunch : function(hunch_id, callback){
+
+		var select_tag_query = "SELECT tag_id, tag_name " +
+								"FROM tags " +
+								"INNER JOIN tag_hunch " +
+								"ON tag_id = tags.id " +
+								"WHERE hunch_id = ?";
+
+		connection.query(select_tag_query, hunch_id, function(err, tag_results){
+			if (err) throw err;
+
+			callback({tag_results : tag_results});
+		});
+
+	},
+	deleteTagHunch : function(hunch_id, callback){
+
+		var delete_tag_query = "DELETE FROM tag_hunch " +
+								"WHERE hunch_id = ?";
+
+		connection.query(delete_tag_query, hunch_id, function(err, tag_results){
+			if (err) throw err;
+
+			callback({tag_results : tag_results});
+		});
+
+	},
 	deleteTag : function(tag, callback){
 		var delete_tag_query = "DELETE FROM tags WHERE id = ?";
 
