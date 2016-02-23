@@ -23,7 +23,7 @@ module.exports = {
 
 		var hunch = {
 				description : hunchInfo.hunchDescription,
-				rating : hunchInfo["rating"] == undefined ? 0 : hunchInfo["rating"],
+				rating : hunchInfo["rating"] == undefined ? 2 : hunchInfo["rating"],
 				date_created : new Date()
 			};
 

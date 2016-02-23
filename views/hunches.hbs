@@ -15,6 +15,7 @@
         <table class="u-full-width" id="hunchesTable">
             <thead>
                 <tr>
+                    <th>Emoticon</th>
                     <th>Description</th>
                     <th>Coders</th>
                     <th>Tags</th>
@@ -26,6 +27,7 @@
                 {{#if hunches}}
                     {{#each hunches}}
                         <tr>
+                            <td><img src="/emoticons/{{rating}}.gif" alt=""></td>
                             <td>{{description}}</td>
                             <td>{{coders}}</td>
                             <td> {{tags}}</td>

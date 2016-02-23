@@ -2,7 +2,7 @@
     <div class="twelve columns">
         <form method="post" action="/hunch/new">
             <div class="row">
-                <div class="six columns">
+                <div class="eight columns">
                     <h1>Create a hunch</h1>
 
                     {{#if msg}}
@@ -20,13 +20,12 @@
                         {{else}}
                             <option>No coders</option>
                         {{/if}}
-
 					</select>
                 </div>
             </div>
 
             <div class="row">
-                <div class="six columns">
+                <div class="eight columns">
                     <div name="remaining-characters" class="u-full-width">
                         Remaing: (200)
                     </div>
@@ -34,7 +33,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="six columns">
+                <div class="eight columns">
 					<select id="select-tags" name="tags[]" multiple class="demo-default" placeholder="Select some tags">
 						<option value="">Select some tags...</option>
                         {{#if tags}}
@@ -44,36 +43,35 @@
                         {{else}}
                             <option>No tags</option>
                         {{/if}}
-						
 					</select>
-
                 </div>
-                {{!-- <div class="four columns">
-                    <p id="tag_msg" style="color:red" hidden>{{#if tag_msg}} {{tag_msg}} {{else}} Enter name of tag {{/if}}</p>
-                    <input class="five columns" type="button" name="add-tag" value="Add new tag">
-                    <input class="six columns" name="new-tag" type="text"/>
-                </div> --}}
             </div>
 
             <div class="row">
-                <div class="six columns">
-
-                    <div class="four columns">
-                        <input type="radio" name="rating" value="3">
+                <div class="ten columns">
+                    <div class="two columns">
+                        <input type="radio" name="rating" value="1">
                         <img src="/emoticons/1.gif" border="0" alt="Happy" title = "Happy emoticon" />
-                        <label>Positive</label>
                     </div>
 
-                    <div class="four columns">
+                    <div class="two columns">
                         <input type="radio" name="rating" value="2">
                         <img src="/emoticons/2.gif" border="0" alt="Observational" title = "Observational emoticon" />
-                        <label>Informing</label>
                     </div>
 
-                    <div class="four columns">
-                        <input type="radio" name="rating" value="1">
+                    <div class="two columns">
+                        <input type="radio" name="rating" value="3">
                         <img src="/emoticons/3.gif" border="0" alt="Disappointed" title = "Disappointed emoticon" />
-                        <label>Negative</label>
+                    </div>
+
+                    <div class="two columns">
+                        <input type="radio" name="rating" value="4">
+                        <img src="/emoticons/4.gif" border="0" alt="QuestionMark" title = "QuestionMark" />
+                    </div>
+
+                    <div class="two columns">
+                        <input type="radio" name="rating" value="5">
+                        <img src="/emoticons/5.gif" border="0" alt="ExclamationMark" title = "ExclamationMark" />
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@
     <div class="twelve columns">
         <form method="post" action="/hunch/edit/{{#hunch}}{{id}}{{/hunch}}">
             <div class="row">
-                <div class="six columns">
+                <div class="eight columns">
                     <h1>Edit a hunch</h1>
 
                     <select id="select-coders" name="coders[]" multiple class="demo-default" placeholder="Select some coders">
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="six columns">
+            <div class="eight columns">
                 <div name="remaining-characters" class="u-full-width">
                     Remaing: (200)
                 </div>
@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="six columns">
+            <div class="eight columns">
                 <select id="select-tags" name="tags[]" multiple class="demo-default" placeholder="Select some tags">
                     <option value="">Select some tags...</option>
                     {{#hunch_tags}}
@@ -38,28 +38,32 @@
                     {{/tags}}
                 </select>
             </div>
-            <div class="two columns">
-                <input type="button" name="add-tag" value="Add new tag">
-            </div>
         </div>
         <div class="row">
-            <div class="six columns">
-                <div class="four columns">
-                    <input type="radio" name="rating" value="3">
+            <div class="ten columns">
+                <div class="two columns">
+                    <input type="radio" name="rating" value="1">
                     <img src="/emoticons/1.gif" border="0" alt="Happy" title = "Happy emoticon" />
-                    <label>Positive</label>
                 </div>
 
-                <div class="four columns">
+                <div class="two columns">
                     <input type="radio" name="rating" value="2">
                     <img src="/emoticons/2.gif" border="0" alt="Observational" title = "Observational emoticon" />
-                    <label>Informing</label>
                 </div>
 
-                <div class="four columns">
-                    <input type="radio" name="rating" value="1">
+                <div class="two columns">
+                    <input type="radio" name="rating" value="3">
                     <img src="/emoticons/3.gif" border="0" alt="Disappointed" title = "Disappointed emoticon" />
-                    <label>Negative</label>
+                </div>
+
+                <div class="ten columns">
+                    <input type="radio" name="rating" value="4">
+                    <img src="/emoticons/4.gif" border="0" alt="QuestionMark" title = "QuestionMark" />
+                </div>
+
+                <div class="ten columns">
+                    <input type="radio" name="rating" value="5">
+                    <img src="/emoticons/5.gif" border="0" alt="ExclamationMark" title = "ExclamationMark" />
                 </div>
             </div>
         </div>

@@ -9,6 +9,7 @@ $(document).ready(function(){
 			searchResults.forEach(function(hunch){
 
 				$("table#hunchesTable tbody").append("<tr>" +
+					" <td> <img border=\"0\" src=\"/emoticons/" + hunch.rating + ".gif\"/></td> " +
                     " <td>" + hunch.description + "</td> " +
                     " <td>" + hunch.coders + "</td> " +
                     " <td> " + hunch.tags + "</td> " +
