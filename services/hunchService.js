@@ -23,7 +23,7 @@ module.exports = {
 
 		var hunch = {
 				description : hunchInfo.hunchDescription,
-				rating : hunchInfo["rating"] == undefined ? 0 : hunchInfo["rating"],
+				rating : hunchInfo["rating"] == undefined ? 2 : hunchInfo["rating"],
 				date_created : new Date()
 			};
 
@@ -53,7 +53,7 @@ module.exports = {
 
 	getHunches : function(callback){
 
-    	var sql_query = "SELECT hunches.id, description, tags, coders, rating " +
+    	var sql_query = "SELECT hunches.id, description, tags, coders, rating, DATE_FORMAT(date_created, '%d/%m/%Y') AS date_created " +
     					"FROM hunches " +
     					"LEFT JOIN ( " + 
     					"	SELECT DISTINCT hunch_id, GROUP_CONCAT(tag_name) AS tags " +
@@ -109,7 +109,7 @@ module.exports = {
 		        connection.query(tags_query, hunch_id, function(err, hunch_tags_results) {
 		        	if (err) throw err;
 
-		        	var coder_ids = formatting.ids_list_string(hunch_coders_results);
+		        	var coder_ids = formatting.sql1_list_string(hunch_coders_results);
 
 		        	//Get coders NOT of this hunch
 		        	var other_coders_query = "SELECT coders.id, name, hunch_id " +
@@ -124,7 +124,7 @@ module.exports = {
 		            connection.query(other_coders_query, hunch_id, function(err, coders_results) {
 		            	if (err) throw err;
 
-		            	var tag_ids = formatting.ids_list_string(hunch_tags_results);
+		            	var tag_ids = formatting.sql1_list_string(hunch_tags_results);
 
 		            	//Get tags NOT of this hunch
 		            	var other_tags_query = "SELECT tags.id, tag_name, hunch_id " +
@@ -240,7 +240,7 @@ module.exports = {
 
 	searchHunches : function(searchString, callback){
 		
-    	var sql_query = "SELECT hunches.id, description, tags, coders, rating " +
+    	var sql_query = "SELECT hunches.id, description, tags, coders, rating, DATE_FORMAT(date_created, '%d/%m/%Y') AS date_created " +
     					"FROM hunches " +
     					"LEFT JOIN ( " + 
     					"	SELECT DISTINCT hunch_id, GROUP_CONCAT(tag_name) AS tags " +
@@ -260,8 +260,7 @@ module.exports = {
 						"ON hunch_coders.hunch_id = hunches.id " +
 						"WHERE description LIKE \'%" + searchString +"%\' "+
 						"OR tags LIKE \'%" + searchString + "%\' " +
-						"OR coders LIKE \'%" + searchString + "%\' " +
-						"OR rating LIKE \'%" + searchString + "%\' ";
+						"OR coders LIKE \'%" + searchString + "%\' ";
 
 		connection.query(sql_query, function(err, searchResults) {
 			if (err) throw err;

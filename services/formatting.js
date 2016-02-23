@@ -1,4 +1,26 @@
 module.exports = {
+	//Form a string like this : (1,2,3) for sql IN operator
+	sql1_list_string : function(array){
+
+
+		if (typeof(array) == "object") {
+			var ids = "";
+			array.forEach(function(id_object, index){
+				ids += id_object.id;
+				if (index < array.length-1) {
+					ids += ",";
+				};
+			});
+
+			ids = "(" + ids + ")";
+
+			return ids
+		} else {
+
+			return "(" + array.id + ")";
+		}
+	},
+	
 	values_to_insert : function(ids_to_insert, insertId){
 
 		if (typeof(ids_to_insert) == "object") {
@@ -23,21 +45,5 @@ module.exports = {
 			return values;
 
 		}
-	},
-
-	//Form a string like this : (1,2,3) for sql IN operator
-	ids_list_string : function(array_of_ids){
-
-		var ids = "";
-		array_of_ids.forEach(function(id_object, index){
-			ids += id_object.id;
-			if (index < array_of_ids.length-1) {
-				ids += ",";
-			};
-		});
-
-		ids = "(" + ids + ")";
-
-		return ids
 	}
 }

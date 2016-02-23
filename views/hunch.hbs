@@ -2,7 +2,7 @@
     <div class="twelve columns">
         <form method="post" action="/hunch/new">
             <div class="row">
-                <div class="six columns">
+                <div class="eight columns">
                     <h1>Create a hunch</h1>
 
                     {{#if msg}}
@@ -11,7 +11,7 @@
                     </h2>
                     {{/if}}
 
-					<select id="select-state" name="coders[]" multiple class="demo-default" placeholder="Select some coders">
+					<select id="select-coders" name="coders[]" multiple class="demo-default" placeholder="Select some coders">
 						<option value="">Select some coders...</option>
 						{{#if coders}}
                             {{#each coders}}
@@ -20,18 +20,20 @@
                         {{else}}
                             <option>No coders</option>
                         {{/if}}
-
 					</select>
                 </div>
             </div>
 
             <div class="row">
-                <div class="six columns">
-                    <textarea class="u-full-width" placeholder="What is this hunch about?" name="hunchDescription">{{#if hunchDescription}}{{hunchDescription}}{{/if}}</textarea>
+                <div class="eight columns">
+                    <div name="remaining-characters" class="u-full-width">
+                        Remaing: (200)
+                    </div>
+                    <textarea maxlength="200" class="u-full-width" placeholder="What is this hunch about?" name="hunchDescription" required>{{#if hunchDescription}}{{hunchDescription}}{{/if}}</textarea>
                 </div>
             </div>
             <div class="row">
-                <div class="six columns">
+                <div class="eight columns">
 					<select id="select-tags" name="tags[]" multiple class="demo-default" placeholder="Select some tags">
 						<option value="">Select some tags...</option>
                         {{#if tags}}
@@ -41,40 +43,43 @@
                         {{else}}
                             <option>No tags</option>
                         {{/if}}
-						
 					</select>
-
-                </div>
-                <div class="two columns">
-                    <input type="button" value="Add tag">
                 </div>
             </div>
 
             <div class="row">
-                <div class="six columns">
-                    <input type="radio" name="rating" value="1">1
-                    <input type="radio" name="rating" value="2">2
-                    <input type="radio" name="rating" value="3">3
-                    <input type="radio" name="rating" value="4">4
-                    <input type="radio" name="rating" value="5">5
+                <div class="ten columns">
+                    <div class="two columns">
+                        <input type="radio" name="rating" value="1">
+                        <img src="/emoticons/1.gif" border="0" alt="Happy" title = "Happy emoticon" />
+                    </div>
+
+                    <div class="two columns">
+                        <input type="radio" name="rating" value="2">
+                        <img src="/emoticons/2.gif" border="0" alt="Observational" title = "Observational emoticon" />
+                    </div>
+
+                    <div class="two columns">
+                        <input type="radio" name="rating" value="3">
+                        <img src="/emoticons/3.gif" border="0" alt="Disappointed" title = "Disappointed emoticon" />
+                    </div>
+
+                    <div class="two columns">
+                        <input type="radio" name="rating" value="4">
+                        <img src="/emoticons/4.gif" border="0" alt="QuestionMark" title = "QuestionMark" />
+                    </div>
+
+                    <div class="two columns">
+                        <input type="radio" name="rating" value="5">
+                        <img src="/emoticons/5.gif" border="0" alt="ExclamationMark" title = "ExclamationMark" />
+                    </div>
                 </div>
             </div>
 
             <div class="row">
-                <input class="button-primary" type="submit" value="Submit">
+                <input class="five columns button-primary" type="submit" value="Submit">
+                <a href="/" class="one columns" title="cancel">cancel</a>
             </div>
         </form>
     </div>
 </div>
-<script>
-				$select = $('#select-state').selectize({
-					maxItems: 3,
-					create: false,
-				});
-
-                $selectTags = $('#select-tags').selectize({
-					maxItems: 3,
-					create: false,
-				});
-
-				</script>
