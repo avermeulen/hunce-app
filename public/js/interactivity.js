@@ -10,7 +10,7 @@ $(document).ready(function(){
     $selectTags = $('#select-tags').selectize({
         plugins: ['restore_on_backspace', 'remove_button'],
         delimiter: ',',
-        persist: false,
+        persist: true,
         selectOnTab : true,
         create: function(input, callback) {
 
