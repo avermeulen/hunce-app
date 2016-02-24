@@ -1,76 +1,77 @@
-<div class="row">
-    <div class="twelve columns">
-        <form method="post" action="/hunch/edit/{{#hunch}}{{id}}{{/hunch}}">
-            <div class="row">
-                <div class="eight columns">
-                    <h1>Edit a hunch</h1>
+<div class="container">
+    <form method="post" action="/hunch/edit/{{#hunch}}{{id}}{{/hunch}}">
 
-                    <select id="select-coders" name="coders[]" multiple class="demo-default" placeholder="Select some coders">
-                        <option value="">Select some coders...</option>
-                        {{#hunch_coders}}
-                        <option value="{{id}}" selected>{{name}}</option>
-                        {{/hunch_coders}}
-                        {{#coders}}
-                        <option value="{{id}}">{{name}}</option>
-                        {{/coders}}
-                    </select>
+        <div>
+            <h1>Edit a hunch</h1>
+        </div>
 
-                </div>
+        <select id="select-coders" name="coders[]" multiple class="demo-default" placeholder="Select some coders">
+            <option value="">Select some coders...</option>
+            {{#hunch_coders}}
+            <option value="{{id}}" selected>{{name}}</option>
+            {{/hunch_coders}}
+            {{#coders}}
+            <option value="{{id}}">{{name}}</option>
+            {{/coders}}
+        </select>
+
+        <div>
+            <div name="remaining-characters" class="u-full-width">
+                Remaing: (200)
             </div>
+            <textarea maxlength="200" class="u-full-width" placeholder="What is this hunch about?" name="hunchDescription" required>{{#hunch}}{{description}}{{/hunch}}</textarea>
         </div>
-        <div class="row">
-            <div class="eight columns">
-                <div name="remaining-characters" class="u-full-width">
-                    Remaing: (200)
-                </div>
-                <textarea maxlength="200" class="u-full-width" placeholder="What is this hunch about?" name="hunchDescription" required>{{#hunch}}{{description}}{{/hunch}}</textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="eight columns">
-                <select id="select-tags" name="tags[]" multiple class="demo-default" placeholder="Select some tags">
-                    <option value="">Select some tags...</option>
-                    {{#hunch_tags}}
+
+        <div>
+            <select id="select-tags" name="tags[]" multiple class="demo-default" placeholder="Select some tags">
+                <option value="">Select some tags...</option>
+                {{#hunch_tags}}
                     <option value="{{id}}" selected>{{tag_name}}</option>
-                    {{/hunch_tags}}
+                {{/hunch_tags}}
+                {{#if tags}}
                     {{#tags}}
-                    <option value="{{id}}">{{tag_name}}</option>
-                    {{/tags}}
-                </select>
-            </div>
+                        <option value="{{id}}">{{tag_name}}</option>
+                    {{/tags}}        
+                {{/if}}
+            </select>
         </div>
-        <div class="row">
-            <div class="ten columns">
-                <div class="two columns">
+
+        <div class="row col-lg-12">
+            <div class="col-lg-2">
+                <label>
                     <input type="radio" name="rating" value="1">
                     <img src="/emoticons/1.gif" border="0" alt="Happy" title = "Happy emoticon" />
-                </div>
-
-                <div class="two columns">
+                </label>
+            </div>
+            <div class="col-lg-2">
+                <label>
                     <input type="radio" name="rating" value="2">
                     <img src="/emoticons/2.gif" border="0" alt="Observational" title = "Observational emoticon" />
-                </div>
-
-                <div class="two columns">
+                </label>
+            </div>
+            <div class="col-lg-2">
+                <label>
                     <input type="radio" name="rating" value="3">
                     <img src="/emoticons/3.gif" border="0" alt="Disappointed" title = "Disappointed emoticon" />
-                </div>
-
-                <div class="two columns">
+                </label>
+            </div>
+            <div class="col-lg-2">
+                <label>
                     <input type="radio" name="rating" value="4">
                     <img src="/emoticons/4.gif" border="0" alt="QuestionMark" title = "QuestionMark" />
-                </div>
-
-                <div class="two columns">
+                </label>
+            </div>
+            <div class="col-lg-2">
+                <label>
                     <input type="radio" name="rating" value="5">
                     <img src="/emoticons/5.gif" border="0" alt="ExclamationMark" title = "ExclamationMark" />
-                </div>
+                </label>
             </div>
         </div>
+        
         <div class="row">
-            <input class="five columns button-primary" type="submit" value="Submit">
-            <a href="/" class="one columns" title="cancel">cancel</a>
+            <input class="col-lg-5 col-lg-offset-5 button-primary" type="submit" value="Submit">
+            <a href="/" class="col-lg-1" title="cancel">cancel</a>
         </div>
     </form>
-</div>
 </div>
