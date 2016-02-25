@@ -38,17 +38,9 @@ $(document).ready(function(){
 
             $("div[name=remaining-characters]").text("Remaing: (" + (200-$(this).val().length) + ")");
         });
-    }
+    };
     //End of description length remaing
 
-    $(".deleteHunch").click(function(e){
-        e.preventDefault();
-
-        var confirm_delete = confirm("Are you sure you want to delete?");
-        
-        if (confirm_delete) {
-            window.location.href = e.target.href;
-        }
-    });
+    $('[data-toggle="confirmation"]').confirmation();
 
 });
