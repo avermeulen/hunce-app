@@ -41,6 +41,9 @@ $(document).ready(function(){
     };
     //End of description length remaing
 
-    $('[data-toggle="confirmation"]').confirmation();
+    $('[data-toggle="confirmation"]').confirmation({
+        btnOkLabel : "Yes",
+        btnCancelLabel : "No"
+    });
 
 });
