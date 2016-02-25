@@ -1,67 +1,67 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8">
+        <title>
+            Hunches Application
+        </title>
+        <!-- Google Sign in
+        ––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <meta name="google-signin-scope" content="profile">
 
-<head>
-    <meta charset="utf-8">
-    <title>
-        Hunches App
-    </title>
+        <!-- Mobile Specific Metas
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Google Sign in
-    ––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="google-signin-scope" content="profile">
-    <meta name="google-signin-client_id" content="904722340683-ldq48rvgdm9k5ink1eq2u8cnfknn1qns.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <!-- FONT
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
-    <!-- Mobile Specific Metas
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- CSS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/css/selectize.default.css">
+        <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+    
+        <!-- Custom CSS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <link rel="stylesheet" type="text/css" href="/css/custom.css">
 
-    <!-- FONT
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+        <!-- Js -->
+        <script src="/js/jquery-2.2.1.min.js"></script>
+        <script src="/js/selectize.js"></script>
+        <script src="/js/bootstrap.js"></script>
+        <script src="/js/bootstrap-confirmation.min.js"></script>
 
-    <!-- CSS
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="/css/skeleton.css">
-    <link rel="stylesheet" href="/css/stylesheet.css">
-    <link rel="stylesheet" href="/css/selectize.default.css">
-
-    <!-- Custom CSS
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" type="text/css" href="/css/custom.css">
-
-    <!-- Js -->
-
-    <script src="/js/jquery.js"></script>
-	<script src="/js/selectize.js"></script>
-
-    <!-- Custom Js
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <script type="text/javascript" src="/js/searchHunces.js"></script>
-    <script type="text/javascript" src="/js/auth.js"></script>
-    <script type="text/javascript" src="/js/interactivity.js"></script>
-
-    <!-- Favicon
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="icon" type="image/png" href="/images/favicon.png">
-</head>
-
-<body>
-    <!-- .container is main centered wrapper -->
-    <div class="container">
-
-        {{{body}}}
-        <style media="screen">
-            .work {
+        <!-- Custom Js
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <script type="text/javascript" src="/js/searchHunces.js"></script>
+        <script type="text/javascript" src="/js/auth.js"></script>
+        <script type="text/javascript" src="/js/interactivity.js"></script>
+        
+        <!-- Favicon
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <link rel="icon" type="image/png" href="/images/favicon.png">
+    </head>
+    <body>
+        <!-- .container is main centered wrapper -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-lg-offset-4">
+                    <a href="/" title="Home">
+                        <h1>Hunches</h1>
+                    </a>
+                </div>
+            </div>
+            {{{body}}}
+            <style media="screen">
+                .work {
                 background-color: dodgerblue;
                 padding : 1em;
                 border : 1px solid black;
                 border-radius: 5%;
-            }
-        </style>
-    </div>
-</body>
-
+                }
+            </style>
+        </div>
+    </body>
 </html>
