@@ -14,8 +14,12 @@ $(document).ready(function(){
                     " <td>" + hunch.coders + "</td> " +
                     " <td>" + hunch.tags + "</td> " +
                     " <td> " + hunch.description + "</td> " +
-                    " <td><a href=\"/hunch/edit/" + hunch.id + " \">Edit</a></td>" +
-                    " <td><a href=\"/hunch/delete/" + hunch.id + " \">Delete</a></td> " +
+                    " <td>" +
+                    	"<a class=\"editHunch btn btn-default\" href=\"/hunch/edit/" + hunch.id + "\">Edit</a>" + 
+                    "</td> " +
+                    " <td>" +
+                    	"<a class=\"deleteHunch btn btn-default\" data-placement=\"top\" data-toggle=\"confirmation\" data-href=\"/hunch/delete/" + hunch.id + "\">Delete</a>" +
+                    " </td>" +
                 	" </tr>"
                 );
 			});
