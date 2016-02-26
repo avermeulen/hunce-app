@@ -1,14 +1,19 @@
 var connection = require('../connection.js');
-var formatting = require('./formatting.js');
+
+var formattingService = require('./formattingService.js');
+
+var tagService = require('./tagService.js');
+var coderService = require('./coderService.js');
+var tagHunchService = require('./tagHunchService.js');
+var coderHunchService = require('./coderHunchService.js')
 
 module.exports = {
+
+	// Get all coders and tags from database
 	newHunch : function(callback){
-		connection.query("SELECT id, tag_name FROM tags", function(err, tags_results) {
-			if (err) throw err;
+		tagService.getAllTags(function(tags_results) {
 
-
-			connection.query("SELECT id, name FROM coders", function(err, coders_results) {
-				if (err) throw err;
+			coderService.getAllCoders(function(coders_results) {
 
 				callback({
 					tags : tags_results,
@@ -17,6 +22,8 @@ module.exports = {
 			});
 		});
 	},
+
+	// Save a new hunch to the database
 	saveHunch : function(hunchInfo, callback){
 
 		var today = new Date();
@@ -30,15 +37,13 @@ module.exports = {
 		connection.query('INSERT INTO hunches (description, rating , date_created) VALUES(?,?,?)', [hunch.description, hunch.rating, hunch.date_created], function(err, insertResults) {
 			if (err) throw err;
 
-			var tag_hunch_ids = formatting.values_to_insert(hunchInfo["tags[]"], insertResults.insertId);
+			var tag_hunch_ids = formattingService.values_to_insert(hunchInfo["tags[]"], insertResults.insertId);
 
-			connection.query('INSERT INTO tag_hunch (hunch_id, tag_id) VALUES' + tag_hunch_ids, function(err, tagHunchResults) {
-				if (err) throw err;
+			tagHunchService.saveTagHunch(tag_hunch_ids, function(tagHunchResults) {
 
-				var coder_hunch_ids = formatting.values_to_insert(hunchInfo["coders[]"], insertResults.insertId);
+				var coder_hunch_ids = formattingService.values_to_insert(hunchInfo["coders[]"], insertResults.insertId);
 
-				connection.query('INSERT INTO coder_hunch (hunch_id, coder_id) VALUES' + coder_hunch_ids, function(err, coderHunchResults) {
-					if (err) throw err;
+				coderHunchService.saveCoderHunch(coder_hunch_ids, function( coderHunchResults) {
 
 					callback({
 						insertResults : insertResults,
@@ -70,7 +75,8 @@ module.exports = {
 						"	ON coder_id = coders.id " +
 						"	GROUP BY coder_hunch.hunch_id " +
 						") AS hunch_coders " +
-						"ON hunch_coders.hunch_id = hunches.id;";
+						"ON hunch_coders.hunch_id = hunches.id " +
+						"ORDER BY hunches.id DESC;";
 
 		connection.query(sql_query, function(err, hunchResults) {
 			if (err) throw err;
@@ -81,61 +87,28 @@ module.exports = {
 	},
 
 	editHunch : function(hunch_id, callback){
+		
 		//Get hunch information in the hunches table
     	var hunch_query = "SELECT id, description, rating " +
     					"FROM hunches " +
     					"WHERE id = ?";
 
-    	//Get coders of this hunch
-		var coders_query = "SELECT coders.id, name " +
-							"FROM coders " +
-							"INNER JOIN coder_hunch " +
-							"ON coder_id = coders.id "+
-							"WHERE hunch_id = ?";
-
-		//Get tags of this hunch
-		var tags_query = "SELECT tags.id, tag_name " +
-    					"FROM tags " +
-    					"INNER JOIN tag_hunch " +
-    					"ON tag_id = tags.id "+
-    					"WHERE hunch_id = ?";
-
 		connection.query(hunch_query, hunch_id, function(err, hunch_results) {
 			if (err) throw err;
 
-		    connection.query(coders_query, hunch_id, function(err, hunch_coders_results) {
-		    	if (err) throw err;
+		    coderService.getCodersOfHunch(hunch_id, function(hunch_coders_results) {
 
-		        connection.query(tags_query, hunch_id, function(err, hunch_tags_results) {
-		        	if (err) throw err;
+		        tagService.getTagsOfHunch(hunch_id, function(hunch_tags_results) {
 
-		        	var coder_ids = formatting.sql1_list_string(hunch_coders_results);
+		        	// Returns a string that looks like this: (1,2,4,5)
+		        	var coder_ids = formattingService.sql1_list_string(hunch_coders_results);
 
-		        	//Get coders NOT of this hunch
-		        	var other_coders_query = "SELECT coders.id, name, hunch_id " +
-		        							"FROM coders " +
-		        							"INNER JOIN coder_hunch " +
-		        							"ON hunch_id != ? " +
-		        							"&& coders.id NOT IN (" +
-		        								"SELECT id from coders where id in " + coder_ids + " " +
-		        								") " +
-											"GROUP BY name";
+		            coderService.getCoders_NOT_inList(coder_ids, function(coders_results) {
 
-		            connection.query(other_coders_query, hunch_id, function(err, coders_results) {
-		            	if (err) throw err;
+		            	// Returns a string that looks like this: (1,2,4,5)
+		            	var tag_ids = formattingService.sql1_list_string(hunch_tags_results);
 
-		            	var tag_ids = formatting.sql1_list_string(hunch_tags_results);
-
-		            	//Get tags NOT of this hunch
-		            	var other_tags_query = "SELECT tags.id, tag_name, hunch_id " +
-		            							"FROM tags " +
-		            							"INNER JOIN tag_hunch " +
-		            							"ON hunch_id != ? && tags.id " +
-		            							"NOT in " + tag_ids +" " +
-		            							"GROUP BY tag_name";
-
-		                connection.query(other_tags_query, hunch_id, function(err, tags_results) {
-		            	if (err) throw err;
+		                tagService.getTags_NOT_inList(tag_ids, function(tags_results) {
 
 			                callback({
 			                	hunch_results : hunch_results,
@@ -161,32 +134,22 @@ module.exports = {
 		var hunch_query = "UPDATE hunches SET description = ?, rating = ? " +
 						"	WHERE id = ?";
 
-		var remove_hunch_tags_query = "DELETE FROM tag_hunch WHERE hunch_id = ?"
-
 		var remove_hunch_coders_query = "DELETE FROM coder_hunch WHERE hunch_id = ?"
 
 		connection.query(hunch_query, [hunch.description, hunch.rating, hunch_id], function(err, updateResults) {
 			if (err) throw err;
 
-			var tag_hunch_ids = formatting.values_to_insert(hunchInfo["tags[]"], hunch_id);
+			var tag_hunch_ids = formattingService.values_to_insert(hunchInfo["tags[]"], hunch_id);
 
-			connection.query(remove_hunch_tags_query, hunch_id, function(err, tagHunchRemoveResults) {
-				if (err) throw err;
+			tagHunchService.deleteTagHunch(hunch_id, function(tagHunchRemoveResults) {
 
-				var insert_tag_hunch_query = "INSERT INTO tag_hunch (hunch_id, tag_id) VALUES" + tag_hunch_ids;
+				tagHunchService.saveTagHunch(tag_hunch_ids, function(tagHunchResults) {
 
-				connection.query(insert_tag_hunch_query, function(err, tagHunchResults) {
-					if (err) throw err;
+					var coder_hunch_ids = formattingService.values_to_insert(hunchInfo["coders[]"], hunch_id);
 
-					var coder_hunch_ids = formatting.values_to_insert(hunchInfo["coders[]"], hunch_id);
+					coderHunchService.deleteCoderHunch(hunch_id, function(coderRemoveHunchResults) {
 
-					connection.query(remove_hunch_coders_query, hunch_id, function(err, coderRemoveHunchResults) {
-						if (err) throw err;
-
-						var insert_coder_hunch_query = "INSERT INTO coder_hunch (hunch_id, coder_id) VALUES" + coder_hunch_ids;
-
-						connection.query(insert_coder_hunch_query, function(err, coderHunchResults) {
-							if (err) throw err;
+						coderHunchService.saveCoderHunch(coder_hunch_ids, function(coderHunchResults) {
 
 							callback({
 									updateResults : updateResults,
@@ -209,21 +172,10 @@ module.exports = {
     	var delete_hunch_query = "DELETE FROM hunches " +
 		    					"WHERE id = ?";
 
-    	//Delete coders of this hunch
-		var delete_coder_hunch_query = "DELETE FROM coder_hunch " +
-										"WHERE hunch_id = ?";
 
+		tagHunchService.deleteTagHunch(hunch_id, function(delete_tag_hunch_results) {
 
-		//Delete tags of this hunch
-		var delete_tag_hunch_query = "DELETE FROM tag_hunch " +
-				    					"WHERE hunch_id = ?";
-
-
-		connection.query(delete_tag_hunch_query, hunch_id, function(err, delete_tag_hunch_results) {
-			if (err) throw err;
-
-		    connection.query(delete_coder_hunch_query, hunch_id, function(err, delete_coder_hunch_results) {
-		    	if (err) throw err;
+		    coderHunchService.deleteCoderHunch(hunch_id, function(delete_coder_hunch_results) {
 
 		        connection.query(delete_hunch_query, hunch_id, function(err, delete_hunch_results) {
 		        	if (err) throw err;
@@ -260,7 +212,8 @@ module.exports = {
 						"ON hunch_coders.hunch_id = hunches.id " +
 						"WHERE description LIKE \'%" + searchString +"%\' "+
 						"OR tags LIKE \'%" + searchString + "%\' " +
-						"OR coders LIKE \'%" + searchString + "%\' ";
+						"OR coders LIKE \'%" + searchString + "%\' " +
+						"ORDER BY hunches.id DESC;";
 
 		connection.query(sql_query, function(err, searchResults) {
 			if (err) throw err;

@@ -3,16 +3,21 @@ var hunchService = require('../services/hunchService.js'),
 
 
 module.exports = {
+
+	// [newHunch] function renders page to create new hunch
 	newHunch : function(req, res){
 		hunchService.newHunch(function(response){
 			
 			return res.render('hunch', response	);
 		});
 	},
+
+	// [saveHunch] function saves new hunch to the database
 	saveHunch : function(req, res){
 
 		var hunchInfo = JSON.parse(JSON.stringify(req.body));
 
+		// If hunch description is empty redirect to same page with a message
 		if (hunchInfo["hunchDescription"] == "") {
 
 			hunchService.newHunch(function(response){
@@ -23,8 +28,8 @@ module.exports = {
 									msg : "Hunch description cannot be empty!"
 								});
 			});
-
 		}
+		// Else if no coders tagged then redirect to same page with a message
 		else if(hunchInfo["coders[]"] == undefined){
 
 			hunchService.newHunch(function(response){
@@ -38,6 +43,8 @@ module.exports = {
 			});
 
 		}
+
+		// Else if no tags then redirect to same page with a message
 		else if(hunchInfo["tags[]"] == undefined){
 
 			hunchService.newHunch(function(results){
@@ -50,13 +57,17 @@ module.exports = {
 								});
 			});
 
-		} else{
+		} 
+		//Save hunch to database and redirect to home page when all conditions are met
+		else{
 
 			hunchService.saveHunch(hunchInfo, function(response){
 				return res.redirect('/');	
 			});
 		};
 	},
+
+	// Displays all the hunches from database on home page
 	getHunches : function(req, res){
     
     	hunchService.getHunches(function(response){
@@ -67,6 +78,8 @@ module.exports = {
     	});
 
 	},
+
+	// Render the information of a hunch to be editted
 	editHunch : function(req, res){
 
     	var hunch_id = req.params.id;
@@ -82,6 +95,8 @@ module.exports = {
         							});
         });
 	},
+
+	// Saves editted hunch to database
 	updateHunch : function(req, res){
 
 		var hunchInfo = JSON.parse(JSON.stringify(req.body));
@@ -92,6 +107,8 @@ module.exports = {
 			return res.redirect("/");
 		});
 	},
+
+	// Delete selected hunch
 	deleteHunch : function(req, res){
 
 		//Get hunch id as request parameter
@@ -101,6 +118,8 @@ module.exports = {
 			res.redirect('/');
 		});
 	},
+
+	// Search through hunches for given search string
 	searchHunches : function(req, res){
 
 		var searchString = req.query.searchString;

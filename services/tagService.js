@@ -17,13 +17,13 @@ module.exports = {
 				connection.query(insert_tag_query, tag.tag_name, function(err, tag_results){
 					if (err) throw err;
 
-					callback({tag_results : tag_results});
+					callback(tag_results);
 
 				});
 			}
 			else if (tag_results.tag_name || tag_results[0].tag_name) {
 
-				callback({tag_results : tag_results});
+				callback(tag_results);
 
 			} 
 
@@ -31,12 +31,12 @@ module.exports = {
 
 	},
 	getAllTags : function(callback){
-		var select_tags_query = "SELECT tag_name FROM tags";
+		var select_tags_query = "SELECT id, tag_name FROM tags";
 
 		connection.query(select_tags_query, function(err, tag_results){
 			if (err) throw err;
 
-			callback({tag_results : tag_results});
+			callback(tag_results);
 		});
 	},
 	getTag : function(tag, callback){
@@ -45,12 +45,12 @@ module.exports = {
 		connection.query(select_tag_query, tag.id, function(err, tag_results){
 			if (err) throw err;
 
-			callback({tag_results : tag_results});
+			callback(tag_results);
 		});
 	},
-	getTagHunch : function(hunch_id, callback){
+	getTagsOfHunch : function(hunch_id, callback){
 
-		var select_tag_query = "SELECT tag_id, tag_name " +
+		var select_tag_query = "SELECT tags.id, tag_name " +
 								"FROM tags " +
 								"INNER JOIN tag_hunch " +
 								"ON tag_id = tags.id " +
@@ -59,19 +59,21 @@ module.exports = {
 		connection.query(select_tag_query, hunch_id, function(err, tag_results){
 			if (err) throw err;
 
-			callback({tag_results : tag_results});
+			callback(tag_results);
 		});
 
 	},
-	deleteTagHunch : function(hunch_id, callback){
 
-		var delete_tag_query = "DELETE FROM tag_hunch " +
-								"WHERE hunch_id = ?";
+	getTags_NOT_inList : function(tag_ids, callback){
 
-		connection.query(delete_tag_query, hunch_id, function(err, tag_results){
+		var select_tag_query = "SELECT id, tag_name " +
+								"FROM tags " +
+								"WHERE id NOT IN " + tag_ids;
+
+		connection.query(select_tag_query, function(err, tag_results){
 			if (err) throw err;
 
-			callback({tag_results : tag_results});
+			callback(tag_results);
 		});
 
 	},
@@ -81,7 +83,7 @@ module.exports = {
 		connection.query(delete_tag_query, tag.id, function(err, tag_results){
 			if (err) throw err;
 
-			callback({tag_results : tag_results});
+			callback(tag_results);
 		});
 	},
 	deleteAllTag : function(callback){
@@ -90,7 +92,7 @@ module.exports = {
 		connection.query(delete_tags_query, tag_id, function(err, tag_results){
 			if (err) throw err;
 
-			callback({tag_results : tag_results});
+			callback(tag_results);
 		});
 	},
 	updateTag : function(tag, callback){
@@ -100,7 +102,7 @@ module.exports = {
 		connection.query(update_tag_query, [tag.id, tag.tag_name], function(){
 			if (err) throw err;
 
-			callback({tag_results : tag_results});
+			callback(tag_results);
 		});
 	}
 
