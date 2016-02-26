@@ -2,10 +2,13 @@ $(document).ready(function(){
 
 	$("input#searchHunces").keyup(function(){
 
+		// [START] JQuery get search data
 		$.get("/search/hunches", {searchString : $(this).val()}, function(searchResults){
 
+			// Empty hunches table
 			$("table#hunchesTable tbody").empty();
 
+			// [START] Re-populate hunches table with search data
 			searchResults.forEach(function(hunch){
 
 				$("table#hunchesTable tbody").append("<tr>" +
@@ -23,11 +26,15 @@ $(document).ready(function(){
                 	" </tr>"
                 );
 			});
+			// [END] Re-populate hunches table with search data
 
+			// [START] Confirm delete functionality
 			$('[data-toggle="confirmation"]').confirmation({
 			    btnOkLabel : "Yes",
 			    btnCancelLabel : "No"
 			});
+			// [END] Confirm delete functionality
 		});
+		// [END] JQuery get search data
 	});
 });

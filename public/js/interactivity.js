@@ -1,4 +1,6 @@
 $(document).ready(function(){
+
+    // [START] [Selectize.js] Adding coders to hunch
     $selectCoders = $('#select-coders').selectize({
             plugins: ['remove_button'],
             delimiter: ',',
@@ -6,7 +8,9 @@ $(document).ready(function(){
             create: false,
             selectOnTab : true
         });
+    // [END] [Selectize.js] Adding coders to hunch
 
+    // [START] [Selectize.js] Adding tags to hunch
     $selectTags = $('#select-tags').selectize({
         plugins: ['restore_on_backspace', 'remove_button'],
         delimiter: ',',
@@ -25,8 +29,9 @@ $(document).ready(function(){
             });
         }   
     });
+    // [END] [Selectize.js] Adding tags to hunch
 
-    //Calculate characters remaining in description
+    // [START] Description characters remaing
 
     if ($("div[name=remaining-characters]").exists) {
 
@@ -39,11 +44,12 @@ $(document).ready(function(){
             $("div[name=remaining-characters]").text("Remaing: (" + (200-$(this).val().length) + ")");
         });
     };
-    //End of description length remaing
+    // [End] Description characters remaing
 
+    // [START] Confirm delete functionality
     $('[data-toggle="confirmation"]').confirmation({
         btnOkLabel : "Yes",
         btnCancelLabel : "No"
     });
-
+    // [END] Confirm delete functionality
 });

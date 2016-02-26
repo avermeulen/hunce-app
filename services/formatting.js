@@ -1,12 +1,11 @@
 module.exports = {
-	//Form a string like this : (1,2,3) for sql IN operator
+	// Form a string like this : (1,2,3) for sql IN operator
 	sql1_list_string : function(array){
-
 
 		if (typeof(array) == "object") {
 			var ids = "";
-			array.forEach(function(id_object, index){
-				ids += id_object.id;
+			array.forEach(function(item, index){
+				ids += item.id;
 				if (index < array.length-1) {
 					ids += ",";
 				};
@@ -21,17 +20,18 @@ module.exports = {
 		}
 	},
 	
-	values_to_insert : function(ids_to_insert, insertId){
+	// Make the string so value = (field, constantField),(field, constantField) and on
+	values_to_insert : function(fieldsArray, constantField){
 
-		if (typeof(ids_to_insert) == "object") {
+		if (typeof(fieldsArray) == "object") {
 			
 			var values = "";
-			//Make the string so value = (hunch_id, tag_id),(hunch_id, tag_id) and on
-			ids_to_insert.forEach(function(tag_id, index){
+			
+			fieldsArray.forEach(function(tag_id, index){
 				
-				values += "(" + insertId + "," + tag_id + ")";
+				values += "(" + constantField + "," + tag_id + ")";
 
-				if (index < ids_to_insert.length-1) {
+				if (index < fieldsArray.length-1) {
 					values += ","
 				}
 			});
@@ -40,7 +40,7 @@ module.exports = {
 
 		}else{
 
-			var values = "(" + insertId + "," + ids_to_insert + ")";;
+			var values = "(" + constantField + "," + fieldsArray + ")";;
 
 			return values;
 

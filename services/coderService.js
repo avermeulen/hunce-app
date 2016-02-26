@@ -17,13 +17,13 @@ module.exports = {
 				connection.query(insert_coder_query, coder.name, function(err, coder_results){
 					if (err) throw err;
 
-					callback({coder_results : coder_results});
+					callback(coder_results);
 
 				});
 			}
 			else if (coder_results.name || coder_results[0].name) {
 
-				callback({coder_results : coder_results});
+				callback(coder_results);
 
 			} 
 
@@ -31,26 +31,26 @@ module.exports = {
 
 	},
 	getAllCoders : function(callback){
-		var select_coders_query = "SELECT name FROM coders";
+		var select_coders_query = "SELECT id, name FROM coders";
 
 		connection.query(select_coders_query, function(err, coder_results){
 			if (err) throw err;
 
-			callback({coder_results : coder_results});
+			callback(coder_results);
 		});
 	},
-	getCoder : function(coder, callback){
+	getCoder : function(coder_id, callback){
 		var select_coder_query = "SELECT name FROM coders WHERE id = ?";
 
-		connection.query(select_coder_query, coder.id, function(err, coder_results){
+		connection.query(select_coder_query, coder_id, function(err, coder_results){
 			if (err) throw err;
 
-			callback({coder_results : coder_results});
+			callback(coder_results);
 		});
 	},
-	getCoderHunch : function(hunch_id, callback){
+	getCodersOfHunch : function(hunch_id, callback){
 
-		var select_coder_query = "SELECT coder_id, name " +
+		var select_coder_query = "SELECT coders.id, coders.name " +
 								"FROM coders " +
 								"INNER JOIN coder_hunch " +
 								"ON coder_id = coders.id " +
@@ -59,19 +59,21 @@ module.exports = {
 		connection.query(select_coder_query, hunch_id, function(err, coder_results){
 			if (err) throw err;
 
-			callback({coder_results : coder_results});
+			callback(coder_results);
 		});
 
 	},
-	deleteCoderHunch : function(hunch_id, callback){
 
-		var delete_coder_query = "DELETE FROM coder_hunch " +
-								"WHERE hunch_id = ?";
+	getCoders_NOT_inList : function(coder_ids, callback){
 
-		connection.query(delete_coder_query, hunch_id, function(err, coder_results){
+		var select_coder_query = "SELECT id, name " +
+    							"FROM coders " +
+    							"WHERE id NOT in " + coder_ids;
+
+		connection.query(select_coder_query, function(err, coder_results){
 			if (err) throw err;
 
-			callback({coder_results : coder_results});
+			callback(coder_results);
 		});
 
 	},
@@ -81,7 +83,7 @@ module.exports = {
 		connection.query(delete_coder_query, coder.id, function(err, coder_results){
 			if (err) throw err;
 
-			callback({coder_results : coder_results});
+			callback(coder_results);
 		});
 	},
 	deleteAllCoder : function(callback){
@@ -90,7 +92,7 @@ module.exports = {
 		connection.query(delete_coders_query, coder_id, function(err, coder_results){
 			if (err) throw err;
 
-			callback({coder_results : coder_results});
+			callback(coder_results);
 		});
 	},
 	updateCoder : function(coder, callback){
@@ -100,7 +102,7 @@ module.exports = {
 		connection.query(update_coder_query, [coder.id, coder.name], function(){
 			if (err) throw err;
 
-			callback({coder_results : coder_results});
+			callback(coder_results);
 		});
 	}
 }
