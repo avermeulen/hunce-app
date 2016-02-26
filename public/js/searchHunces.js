@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+	$("input#searchHunces").val("");
+
 	$("input#searchHunces").keyup(function(){
 
 		// [START] JQuery get search data

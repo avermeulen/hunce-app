@@ -87,6 +87,7 @@ module.exports = {
 	},
 
 	editHunch : function(hunch_id, callback){
+		
 		//Get hunch information in the hunches table
     	var hunch_query = "SELECT id, description, rating " +
     					"FROM hunches " +
