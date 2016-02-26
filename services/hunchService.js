@@ -1,6 +1,6 @@
 var connection = require('../connection.js');
 
-var formatting = require('./formatting.js');
+var formattingService = require('./formattingService.js');
 
 var tagService = require('./tagService.js');
 var coderService = require('./coderService.js');
@@ -37,11 +37,11 @@ module.exports = {
 		connection.query('INSERT INTO hunches (description, rating , date_created) VALUES(?,?,?)', [hunch.description, hunch.rating, hunch.date_created], function(err, insertResults) {
 			if (err) throw err;
 
-			var tag_hunch_ids = formatting.values_to_insert(hunchInfo["tags[]"], insertResults.insertId);
+			var tag_hunch_ids = formattingService.values_to_insert(hunchInfo["tags[]"], insertResults.insertId);
 
 			tagHunchService.saveTagHunch(tag_hunch_ids, function(tagHunchResults) {
 
-				var coder_hunch_ids = formatting.values_to_insert(hunchInfo["coders[]"], insertResults.insertId);
+				var coder_hunch_ids = formattingService.values_to_insert(hunchInfo["coders[]"], insertResults.insertId);
 
 				coderHunchService.saveCoderHunch(coder_hunch_ids, function( coderHunchResults) {
 
@@ -101,12 +101,12 @@ module.exports = {
 		        tagService.getTagsOfHunch(hunch_id, function(hunch_tags_results) {
 
 		        	// Returns a string that looks like this: (1,2,4,5)
-		        	var coder_ids = formatting.sql1_list_string(hunch_coders_results);
+		        	var coder_ids = formattingService.sql1_list_string(hunch_coders_results);
 
 		            coderService.getCoders_NOT_inList(coder_ids, function(coders_results) {
 
 		            	// Returns a string that looks like this: (1,2,4,5)
-		            	var tag_ids = formatting.sql1_list_string(hunch_tags_results);
+		            	var tag_ids = formattingService.sql1_list_string(hunch_tags_results);
 
 		                tagService.getTags_NOT_inList(tag_ids, function(tags_results) {
 
@@ -139,13 +139,13 @@ module.exports = {
 		connection.query(hunch_query, [hunch.description, hunch.rating, hunch_id], function(err, updateResults) {
 			if (err) throw err;
 
-			var tag_hunch_ids = formatting.values_to_insert(hunchInfo["tags[]"], hunch_id);
+			var tag_hunch_ids = formattingService.values_to_insert(hunchInfo["tags[]"], hunch_id);
 
 			tagHunchService.deleteTagHunch(hunch_id, function(tagHunchRemoveResults) {
 
 				tagHunchService.saveTagHunch(tag_hunch_ids, function(tagHunchResults) {
 
-					var coder_hunch_ids = formatting.values_to_insert(hunchInfo["coders[]"], hunch_id);
+					var coder_hunch_ids = formattingService.values_to_insert(hunchInfo["coders[]"], hunch_id);
 
 					coderHunchService.deleteCoderHunch(hunch_id, function(coderRemoveHunchResults) {
 
