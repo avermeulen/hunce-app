@@ -61,7 +61,7 @@ module.exports = {
     	var sql_query = "SELECT hunches.id, description, tags, coders, rating, DATE_FORMAT(date_created, '%d/%m/%Y') AS date_created " +
     					"FROM hunches " +
     					"LEFT JOIN ( " + 
-    					"	SELECT DISTINCT hunch_id, GROUP_CONCAT(tag_name) AS tags " +
+    					"	SELECT DISTINCT hunch_id, GROUP_CONCAT(tag_name SEPARATOR ', ') AS tags " +
     					"	FROM tags " +
     					"	INNER JOIN tag_hunch " +
     					"	ON tag_id = tags.id " +
@@ -69,7 +69,7 @@ module.exports = {
     					") AS hunch_tags " + 
 						"ON hunch_tags.hunch_id = hunches.id " +
 						"LEFT JOIN ( " +
-						"	SELECT DISTINCT hunch_id, GROUP_CONCAT(name) AS coders " +
+						"	SELECT DISTINCT hunch_id, GROUP_CONCAT(name SEPARATOR ', ') AS coders " +
 						"	FROM coders " +
 						"	INNER JOIN coder_hunch " +
 						"	ON coder_id = coders.id " +
@@ -195,7 +195,7 @@ module.exports = {
     	var sql_query = "SELECT hunches.id, description, tags, coders, rating, DATE_FORMAT(date_created, '%d/%m/%Y') AS date_created " +
     					"FROM hunches " +
     					"LEFT JOIN ( " + 
-    					"	SELECT DISTINCT hunch_id, GROUP_CONCAT(tag_name) AS tags " +
+    					"	SELECT DISTINCT hunch_id, GROUP_CONCAT(tag_name SEPARATOR ', ') AS tags " +
     					"	FROM tags " +
     					"	INNER JOIN tag_hunch " +
     					"	ON tag_id = tags.id " +
@@ -203,7 +203,7 @@ module.exports = {
     					") AS hunch_tags " + 
 						"ON hunch_tags.hunch_id = hunches.id " +
 						"LEFT JOIN ( " +
-						"	SELECT DISTINCT hunch_id, GROUP_CONCAT(name) AS coders " +
+						"	SELECT DISTINCT hunch_id, GROUP_CONCAT(name SEPARATOR ', ') AS coders " +
 						"	FROM coders " +
 						"	INNER JOIN coder_hunch " +
 						"	ON coder_id = coders.id " +
